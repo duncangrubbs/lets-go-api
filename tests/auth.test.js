@@ -7,14 +7,25 @@ import app from '../app';
 chai.use(chaiHttp);
 chai.should();
 
-describe('Students', () => {
-  describe('GET /', () => {
-    // Test to get all students record
-    it('should get all students record', (done) => {
+describe('Auth Tests', () => {
+  describe('Route Ensure', () => {
+    it('should return a status of 200', (done) => {
       chai.request(app)
-        .get('/api/auth')
+        .get('/api/auth/')
         .end((err, res) => {
           res.should.have.status(200);
+          res.body.should.be.a('object');
+          done();
+        });
+    });
+  });
+
+  describe('POST /signup', () => {
+    it('should return a status of 201', (done) => {
+      chai.request(app)
+        .post('/api/auth/signup')
+        .end((err, res) => {
+          res.should.have.status(201);
           res.body.should.be.a('object');
           done();
         });

@@ -9,7 +9,8 @@ Let's go is a web application for finding new friends.
 After cloning the repository, do the following.
 - Run `yarn` to install all dependencies
 - Run `yarn start` to start the dev server
-- Run `yarn test` to test
+- Run `mongod` in a seperate terminal window and
+then `yarn test` to test
 
 ### This app is build with:
 1. [Node](https://nodejs.org/)
@@ -19,5 +20,8 @@ After cloning the repository, do the following.
 5. [MongoDB](https://www.mongodb.com/) - JSON database
 6. [Mocha](https://mochajs.org/) - Javascript test assertion library
 7. [Chai](https://www.chaijs.com/) - For simulating HTTP requests when testing
+
+I am using mongoDBCompass and Postman as resources for testing the API routes
+and the database.
 
 **See the wiki for API documentation.**

@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5000;
 
 // Configure Mongoose
 mongoose.connect(dbConfig.url, { useNewUrlParser: true });
-mongoose.set('debug', true);
+// mongoose.set('debug', true);
 
 app.use('/api/auth', auth);
 

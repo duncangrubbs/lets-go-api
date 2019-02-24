@@ -3,13 +3,14 @@
  * @author Duncan Grubbs <duncan.grubbs@gmail.com>
  */
 
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 import crypto from 'crypto';
 
-const User = new Schema({
-  email: String,
-  hash: String,
-  salt: String,
+const User = new mongoose.Schema({
+  email: { type: String, required: true },
+  hash: { type: String, required: true },
+  salt: { type: String, required: true },
+  dateCreated: { type: Number, default: Date.now() },
 });
 
 // Hashes and Salts the user's password
@@ -24,4 +25,4 @@ User.methods.validatePassword = (password) => {
   return this.hash === hash;
 };
 
-mongoose.model('users', User);
+export default mongoose.model('users', User);
