@@ -14,10 +14,13 @@ router.get('/login', (req, res) => {
 
 router.post('/signup', (req, res) => {
   const dummy = new User({
-    email: 'duncan@gmail.com',
-    hash: '1234',
-    salt: 'askfhksdf',
+    name: 'Duncan Grubbs',
+    birthdate: '01-09-1999',
+    location: 'Rochester, NY',
+    bio: 'Love the Outdoors!',
+    email: 'duncan.grubbs@gmail.com',
   });
+  dummy.setPassword('demopassword');
   dummy.save()
     .then(() => {
       res.status(201).json({ msg: 'ADDED DUMMY USER' });
