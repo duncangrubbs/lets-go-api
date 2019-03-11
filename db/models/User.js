@@ -11,6 +11,7 @@ const User = new mongoose.Schema({
   birthdate: { type: String, required: true },
   location: { type: String, required: false },
   bio: { type: String, required: false },
+  pastEvents: { type: Array, required: false },
   email: { type: String, required: true },
   hash: { type: String, default: null, required: true },
   salt: { type: String, default: null, required: true },

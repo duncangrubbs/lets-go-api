@@ -9,7 +9,14 @@ const Event = new mongoose.Schema({
   title: { type: String, required: true },
   location: { type: String, required: true },
   description: { type: String, required: true },
-  dateCreated: { type: Number, default: Date.now() },
-});
+  owner: { type: String, required: true },
+  attendees: { type: Array, required: true, default: [] },
+  date: { type: Number, required: true },
+  dateCreated: { type: Number, required: true, default: Date.now() },
+}, { collection: 'events' });
 
-export default mongoose.model('events', Event);
+Event.methods.isExpired = function () {
+  return Date.now() >= this.date();
+};
+
+export default mongoose.model('Event', Event);

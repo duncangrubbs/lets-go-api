@@ -1,5 +1,6 @@
 /**
  * @file auth.js
+ * @description All requests are sorted alphabetically, and by type.
  * @author Duncan Grubbs <duncan.grubbs@gmail.com>
  */
 
@@ -8,10 +9,7 @@ import User from '../db/models/User';
 
 const router = express.Router();
 
-router.get('/login', (req, res) => {
-  res.status(200).json({ msg: 'LOGIN OK' });
-});
-
+// POST requests
 router.post('/signup', (req, res) => {
   const dummy = new User({
     name: 'Duncan Grubbs',
@@ -25,6 +23,11 @@ router.post('/signup', (req, res) => {
     .then(() => {
       res.status(201).json({ msg: 'ADDED DUMMY USER' });
     });
+});
+
+// GET requests
+router.get('/login', (req, res) => {
+  res.status(200).json({ msg: 'LOGIN OK' });
 });
 
 router.get('/', (req, res) => {
