@@ -1,3 +1,4 @@
+/* aeslint-disable func-names */
 /**
  * @file Event.js
  * @author Duncan Grubbs <duncan.grubbs@gmail.com>

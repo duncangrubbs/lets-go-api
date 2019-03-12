@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /**
  * @file User.js
  * @author Duncan Grubbs <duncan.grubbs@gmail.com>
