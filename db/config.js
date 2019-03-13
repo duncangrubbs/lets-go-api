@@ -1,5 +1,5 @@
 const config = {
-  url: 'mongodb://localhost/passport-tutorial',
+  url: 'mongodb://localhost/lets-go-db',
 };
 
 export default config;

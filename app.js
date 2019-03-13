@@ -10,17 +10,20 @@ import dbConfig from './db/config';
 
 // API Routes
 import auth from './routes/auth';
+import events from './routes/events';
 
 // Declare constants
 const app = express();
 const PORT = process.env.PORT || 5000;
+
 // const isProduction = process.env.NODE_ENV === 'production';
+// if (!isProduction) { mongoose.set('debug', true); }
 
 // Configure Mongoose
 mongoose.connect(dbConfig.url, { useNewUrlParser: true });
-// mongoose.set('debug', true);
 
 app.use('/api/auth', auth);
+app.use('/api/events', events);
 
 // Catch-all
 app.get('*', (req, res) => {

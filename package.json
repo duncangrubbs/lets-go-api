@@ -1,7 +1,7 @@
 {
   "name": "lets-go-api",
   "version": "0.0.1",
-  "description": "An API for Let's Go",
+  "description": "The API for Let's Go",
   "author": "Duncan Grubbs",
   "main": "server.js",
   "scripts": {

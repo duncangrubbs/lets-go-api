@@ -1,4 +1,4 @@
-/* aeslint-disable func-names */
+/* eslint-disable func-names */
 /**
  * @file Event.js
  * @author Duncan Grubbs <duncan.grubbs@gmail.com>
@@ -11,7 +11,7 @@ const Event = new mongoose.Schema({
   location: { type: String, required: true },
   description: { type: String, required: true },
   owner: { type: String, required: true },
-  attendees: { type: Array, required: true, default: [] },
+  attendees: { type: Array, required: false, default: [] },
   date: { type: Number, required: true },
   dateCreated: { type: Number, required: true, default: Date.now() },
 }, { collection: 'events' });
