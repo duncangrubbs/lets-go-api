@@ -1,3 +1,9 @@
+/**
+ * @file auth.test.js
+ * @description Test Suite, Crud.
+ * @author Duncan Grubbs <duncan.grubbs@gmail.com>
+ */
+
 const assert = require('assert');
 import User from '../db/models/User';
 

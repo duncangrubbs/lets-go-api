@@ -1,4 +1,9 @@
-// delete_test.js
+/**
+ * @file delete.test.js
+ * @description Test Suite, cruD.
+ * @author Duncan Grubbs <duncan.grubbs@gmail.com>
+ */
+
 const assert = require('assert');
 import User from '../db/models/User';
 

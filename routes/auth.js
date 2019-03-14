@@ -25,11 +25,11 @@ router.post('/signup', (req, res) => {
     });
 });
 
-// GET requests
-router.get('/login', (req, res) => {
+router.post('/login', (req, res) => {
   res.status(200).json({ msg: 'LOGIN OK' });
 });
 
+// GET requests
 router.get('/', (req, res) => {
   res.status(200).json({ msg: 'AUTH OK' });
 });

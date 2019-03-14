@@ -1,6 +1,6 @@
 /**
- * @file auth.test.js
- * @description Test Suite, Auth routes.
+ * @file events.test.js
+ * @description Test Suite, Events routes.
  * @author Duncan Grubbs <duncan.grubbs@gmail.com>
  */
 
@@ -13,9 +13,9 @@ import app from '../app';
 chai.use(chaiHttp);
 chai.should();
 
-const baseURL = '/api/auth';
+const baseURL = '/api/events';
 
-describe('Auth Route Tests', () => {
+describe('Events Route Tests', () => {
   describe('Route Ensure', () => {
     it('should return a status of 200', (done) => {
       chai.request(app)
@@ -28,11 +28,11 @@ describe('Auth Route Tests', () => {
     });
   });
 
-  // signup route
-  describe('POST /signup', () => {
+  // create-event route
+  describe('POST /create-event', () => {
     it('should return a status of 201', (done) => {
       chai.request(app)
-        .post(`${baseURL}/signup`)
+        .post(`${baseURL}/create-event`)
         .end((err, res) => {
           res.should.have.status(201);
           res.body.should.be.a('object');
@@ -41,11 +41,24 @@ describe('Auth Route Tests', () => {
     });
   });
 
-   // login route
-  describe('POST /login', () => {
+  // nearby route
+  describe('GET /nearby', () => {
     it('should return a status of 200', (done) => {
       chai.request(app)
-        .post(`${baseURL}/login`)
+        .get(`${baseURL}/nearby/3`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          done();
+        });
+    });
+  });
+
+  // public route
+  describe('GET /public', () => {
+    it('should return a status of 200', (done) => {
+      chai.request(app)
+        .get(`${baseURL}/public/3`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');

@@ -1,4 +1,9 @@
-// update_test.js
+/**
+ * @file update.test.js
+ * @description Test Suite, crUd.
+ * @author Duncan Grubbs <duncan.grubbs@gmail.com>
+ */
+
 const assert = require('assert');
 import User from '../db/models/User';
 
@@ -22,9 +27,9 @@ describe('Updating a user', () => {
   function assertHelper(statement, done) {
     statement
      .then(() => User.find({}))
-     .then((pokemons) => {
-      assert(pokemons.length === 1);
-      assert(pokemons[0].name === 'Duncan Grubbs');
+     .then((users) => {
+      assert(users.length === 1);
+      assert(users[0].name === 'Duncan Grubbs');
       done();
     });
   }

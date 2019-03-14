@@ -3,3 +3,5 @@ yarn.lock
 .DS_Store
 .vscode
 /*/lint-report.html
+
+.nyc_output

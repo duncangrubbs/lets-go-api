@@ -1,3 +1,9 @@
+/**
+ * @file testHelper.js
+ * @description Helper for test suite.
+ * @author Duncan Grubbs <duncan.grubbs@gmail.com>
+ */
+
 import mongoose from 'mongoose';
 
 import dbConfig from '../db/config';

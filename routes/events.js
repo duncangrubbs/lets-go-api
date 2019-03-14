@@ -34,4 +34,8 @@ router.get('/public/:page', (req, res) => {
   res.status(200).json({ msg: 'GET ALL EVENTS OK' });
 });
 
+router.get('/', (req, res) => {
+  res.status(200).json({ msg: 'EVENTS ROUTER UP' });
+});
+
 module.exports = router;
