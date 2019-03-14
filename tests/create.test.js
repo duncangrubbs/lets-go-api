@@ -15,9 +15,12 @@ describe('Creating documents', () => {
       salt: '109271903',
     });
     sampleUser.save()
-      .then(() => {
+      .then((err) => {
         assert(!sampleUser.isNew);
         done();
+      })
+      .catch((err) => {
+        console.log(err); // eslint-disable-line
       });
   });
 });
