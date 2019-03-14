@@ -6,7 +6,8 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon --exec babel-node app.js",
-    "test": "nyc mocha --require babel-register tests/*.js --exit",
+    "test": "nyc --reporter=html mocha --require babel-register tests/*.js --exit",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint -o ./tests/lint-report.html -f html *"
   },
   "license": "ISC",
@@ -15,6 +16,7 @@
     "babel-preset-es2015": "^6.24.1",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
+    "coveralls": "^3.0.3",
     "crypto": "^1.0.1",
     "express": "^4.16.4",
     "mocha": "^5.2.0",

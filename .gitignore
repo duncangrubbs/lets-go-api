@@ -5,3 +5,4 @@ yarn.lock
 /*/lint-report.html
 
 .nyc_output
+/coverage

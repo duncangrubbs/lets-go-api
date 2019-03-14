@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/github/duncangrubbs/lets-go-api/badge.svg?branch=master)](https://coveralls.io/github/duncangrubbs/lets-go-api?branch=master)
 # Let's Go API
 
 ### An API for the **Let's Go** app.
