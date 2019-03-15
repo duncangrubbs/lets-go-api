@@ -5,7 +5,6 @@
  */
 
 import express from 'express';
-import User from '../db/models/User';
 import Event from '../db/models/Event';
 
 const router = express.Router();

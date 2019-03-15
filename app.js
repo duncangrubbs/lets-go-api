@@ -4,6 +4,7 @@
  */
 
 import express from 'express';
+import bodyParser from 'body-parser';
 
 import mongoose from 'mongoose';
 import dbConfig from './db/config';
@@ -21,6 +22,9 @@ const PORT = process.env.PORT || 5000;
 
 // Configure Mongoose
 mongoose.connect(dbConfig.url, { useNewUrlParser: true });
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use('/api/auth', auth);
 app.use('/api/events', events);
