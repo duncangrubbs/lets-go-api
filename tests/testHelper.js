@@ -6,7 +6,7 @@
 
 import mongoose from 'mongoose';
 
-import dbConfig from '../db/config';
+import dbConfig from '../config/database';
 
 // tell mongoose to use es6 implementation of promises
 mongoose.Promise = global.Promise;

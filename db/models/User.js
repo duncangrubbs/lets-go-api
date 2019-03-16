@@ -6,14 +6,18 @@
 
 import mongoose from 'mongoose';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
 
 const User = new mongoose.Schema({
   name: { type: String, required: true },
+  email: { type: String, required: true },
   birthdate: { type: String, required: true },
+
+  username: { type: String, required: false },
   location: { type: String, required: false },
   bio: { type: String, required: false },
   pastEvents: { type: Array, required: false },
-  email: { type: String, required: true },
+
   hash: { type: String, default: null, required: true },
   salt: { type: String, default: null, required: true },
   dateCreated: { type: Number, default: Date.now() },
@@ -29,6 +33,26 @@ User.methods.setPassword = function (password) {
 User.methods.validatePassword = function (password) {
   const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
   return this.hash === hash;
+};
+
+User.methods.generateJWT = function () {
+  const today = new Date();
+  const expDate = new Date(today);
+  expDate.setDate(today.getDate() + 60);
+
+  return jwt.sign({
+    email: this.email,
+    id: this._id,
+    exp: parseInt(expDate.getTime() / 1000, 10),
+  }, 'secret');
+};
+
+User.methods.toAuthJSON = function () {
+  return {
+    _id: this._id,
+    email: this.email,
+    token: this.generateJWT(),
+  };
 };
 
 export default mongoose.model('User', User);

@@ -5,9 +5,10 @@
 
 import express from 'express';
 import bodyParser from 'body-parser';
+import logger from 'morgan';
 
 import mongoose from 'mongoose';
-import dbConfig from './db/config';
+import dbConfig from './config/database';
 
 // API Routes
 import auth from './routes/auth';
@@ -17,12 +18,17 @@ import events from './routes/events';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// const isProduction = process.env.NODE_ENV === 'production';
-// if (!isProduction) { mongoose.set('debug', true); }
+const isProduction = process.env.NODE_ENV === 'production';
+
+if (!isProduction) {
+  // mongoose.set('debug', true);
+}
 
 // Configure Mongoose
 mongoose.connect(dbConfig.url, { useNewUrlParser: true });
 
+// Middlewares
+app.use(logger('tiny'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -36,7 +42,7 @@ app.get('*', (req, res) => {
 
 // Start the server
 const server = app.listen(PORT, () => {
-  console.log(`API app listening at port ${PORT}`);
+  console.log(`API app listening at port ${PORT}`); // eslint-disable-line
 });
 
 module.exports = server;

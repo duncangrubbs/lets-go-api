@@ -5,17 +5,20 @@
 ### An API for the **Let's Go** app.
 
 ### What is Let's Go?
-Let's go is a web application for finding new friends.
+Let's go is an application for finding new friends.
 
 ### How to Use
 After cloning the repository, do the following.
+- Always run `mongod` in a seperate terminal to 
+start up the local db server first
 - Run `yarn` to install all dependencies
 - Run `yarn start` to start the dev server
-- Run `mongod` in a seperate terminal window and
-then `yarn test` to test
+- Run `yarn test` to test
+- Run `yarn run lint` to lint
+- Run `yarn run coverage` to collect test coverage
 
 ### This app is build with:
-1. [Node](https://nodejs.org/)
+1. [Node](https://nodejs.org/) - running JS locally
 2. [Yarn](https://yarnpkg.com/) - package manager
 3. [Babel](https://babeljs.io) - for JS transpiling ES6
 4. [Mongoose](http://mongoosejs.com) - for MongoDB

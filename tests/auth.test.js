@@ -28,11 +28,20 @@ describe('Auth Route Tests', () => {
     });
   });
 
+  const user = {
+    email: "duncan@gmail.com",
+    name: "Duncan Grubbs",
+    password: "test",
+    birthdate: "1-2-3"
+  };
+
   // signup route
   describe('POST /signup', () => {
     it('should return a status of 201', (done) => {
       chai.request(app)
         .post(`${baseURL}/signup`)
+        .send({ user }) // sends a JSON post body
+        .set('accept', 'json')
         .end((err, res) => {
           res.should.have.status(201);
           res.body.should.be.a('object');
@@ -46,6 +55,11 @@ describe('Auth Route Tests', () => {
     it('should return a status of 200', (done) => {
       chai.request(app)
         .post(`${baseURL}/login`)
+        .set('content-type', 'application/json')
+        .send({
+          'email': 'duncan@gmail.com',
+          'password': 'password',
+        })
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
