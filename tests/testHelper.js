@@ -10,7 +10,13 @@ import dbConfig from '../config/database';
 
 // tell mongoose to use es6 implementation of promises
 mongoose.Promise = global.Promise;
-mongoose.connect(dbConfig.url, { useNewUrlParser: true });
+mongoose.connect(
+  dbConfig.url,
+  {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+  },
+);
 mongoose.connection
   .on('error', (error) => {
     console.warn('Error : ', error); // eslint-disable-line

@@ -5,7 +5,7 @@
 
 import express from 'express';
 import bodyParser from 'body-parser';
-import logger from 'morgan';
+// import logger from 'morgan';
 
 import mongoose from 'mongoose';
 import dbConfig from './config/database';
@@ -22,13 +22,19 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 if (!isProduction) {
   // mongoose.set('debug', true);
+  // app.use(logger('tiny'));
 }
 
 // Configure Mongoose
-mongoose.connect(dbConfig.url, { useNewUrlParser: true });
+mongoose.connect(
+  dbConfig.url,
+  {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+  },
+);
 
 // Middlewares
-app.use(logger('tiny'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

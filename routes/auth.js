@@ -34,8 +34,6 @@ router.post('/login', auth.optional, (req, res) => {
 router.post('/signup', auth.optional, (req, res) => {
   const { body: { user } } = req;
 
-  console.log(req.body); // eslint-disable-line
-
   if (!validateFieldsSignup(user)) {
     return res.status(422).json({
       errors: {
