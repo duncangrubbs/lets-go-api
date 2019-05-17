@@ -19,7 +19,7 @@ mongoose.connect(
 );
 mongoose.connection
   .on('error', (error) => {
-    console.warn('Error : ', error); // eslint-disable-line
+    console.warn('Error: ', error); // eslint-disable-line
   });
 
 // Called hooks which runs before something.

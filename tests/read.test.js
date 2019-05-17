@@ -11,8 +11,9 @@ describe('Reading User details', () => {
   let sampleUser;
   beforeEach((done) => {
     sampleUser = new User({
-      name: 'Duncan Grubbs',
-      birthdate: '01-09-1999',
+      firstName: 'Duncan',
+      lastName: 'Grubbs',
+      birthdate: 938070000000,
       location: 'Rochester, NY',
       bio: 'Love the Outdoors!',
       email: 'duncan.grubbs@gmail.com',
@@ -25,10 +26,10 @@ describe('Reading User details', () => {
       });
   });
 
-  it('finds user with the name of duncan grubbs', (done) => {
-    User.findOne({ name: 'Duncan Grubbs' })
+  it('finds user with the name of Duncan', (done) => {
+    User.findOne({ firstName: 'Duncan' })
       .then((user) => {
-        assert(user.name === 'Duncan Grubbs');
+        assert(user.firstName === 'Duncan');
         done();
       })
       .catch((err) => {

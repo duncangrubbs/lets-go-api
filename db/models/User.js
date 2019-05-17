@@ -7,11 +7,13 @@
 import mongoose from 'mongoose';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
+import auth from '../../config/auth';
 
 const User = new mongoose.Schema({
-  name: { type: String, required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   email: { type: String, required: true },
-  birthdate: { type: String, required: true },
+  birthdate: { type: Number, required: true },
 
   username: { type: String, required: false },
   location: { type: String, required: false },
@@ -44,7 +46,7 @@ User.methods.generateJWT = function () {
     email: this.email,
     id: this._id,
     exp: parseInt(expDate.getTime() / 1000, 10),
-  }, 'secret');
+  }, auth.SECRET_KEY);
 };
 
 User.methods.toAuthJSON = function () {

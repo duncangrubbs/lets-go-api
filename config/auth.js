@@ -6,6 +6,8 @@
 
 import jwt from 'express-jwt';
 
+const SECRET_KEY = process.env.SECRET || 'secret';
+
 const getTokenFromHeaders = (req) => {
   const { header: { authorization } } = req;
 
@@ -16,13 +18,14 @@ const getTokenFromHeaders = (req) => {
 };
 
 const auth = {
+  SECRET_KEY,
   required: jwt({
-    secret: 'secret',
+    secret: SECRET_KEY,
     userProperty: 'payload',
     getToken: getTokenFromHeaders,
   }),
   optional: jwt({
-    secret: 'secret',
+    secret: SECRET_KEY,
     userProperty: 'payload',
     getToken: getTokenFromHeaders,
     credentialsRequired: false,

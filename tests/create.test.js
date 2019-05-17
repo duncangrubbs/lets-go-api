@@ -12,13 +12,15 @@ describe('Creating documents', () => {
     // assertion is not included in mocha so 
     // require assert which was installed along with mocha
     let sampleUser = new User({
-      name: 'Duncan Grubbs',
-      birthdate: '01-09-1999',
+      firstName: 'Duncan',
+      lastName: 'Grubbs',
+      password: 'something',
+      birthdate: 938070000000,
       location: 'Rochester, NY',
       bio: 'Love the Outdoors!',
       email: 'duncan.grubbs@gmail.com',
-      hash: '123456789',
-      salt: '109271903',
+      hash: 'skdhgow3hg984g89bg',
+      salt: '9824h98hg3igg3igub',
     });
     sampleUser.save()
       .then((err) => {

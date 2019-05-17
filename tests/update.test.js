@@ -12,8 +12,9 @@ describe('Updating a user', () => {
 
   beforeEach((done) => {
     user = new User({
-      name: 'Duncan Grubbs',
-      birthdate: '01-09-1999',
+      firstName: 'Duncan',
+      lastName: 'Grubbs',
+      birthdate: 938070000000,
       location: 'Rochester, NY',
       bio: 'Love the Outdoors!',
       email: 'duncan.grubbs@gmail.com',
@@ -29,30 +30,30 @@ describe('Updating a user', () => {
      .then(() => User.find({}))
      .then((users) => {
       assert(users.length === 1);
-      assert(users[0].name === 'Duncan Grubbs');
+      assert(users[0].firstName === 'Duncan');
       done();
     });
   }
   
   it('sets and saves user using an instance', (done) => {
-    user.set('name', 'Duncan Grubbs'); // not updated in mongodb yet
+    user.set('firstName', 'Duncan'); // not updated in mongodb yet
     assertHelper(user.save(), done);
    });
  
   it('update user using instance', (done) => {
     //useful to update multiple fields of the object
-    assertHelper(user.updateOne({ name: 'Duncan Grubbs' }), done);
+    assertHelper(user.updateOne({ firstName: 'Duncan' }), done);
   });
 
   it('update all matching user using model', (done) => {
-    assertHelper(User.updateOne({ name: 'Duncan Grubbs' }, { name: 'Duncan Grubbs' }), done);
+    assertHelper(User.updateOne({ firstName: 'Duncan' }, { firstName: 'Duncan' }), done);
   });
 
   it('update one user using model', (done) => {
-    assertHelper(User.findOneAndUpdate({ name: 'Duncan Grubbs' }, { name: 'Duncan Grubbs' }), done);
+    assertHelper(User.findOneAndUpdate({ firstName: 'Duncan' }, { firstName: 'Duncan' }), done);
   });
 
   it('update one user with id using model', (done) => {
-    assertHelper(User.findOneAndUpdate(user._id, { name: 'Duncan Grubbs' }), done);
+    assertHelper(User.findOneAndUpdate(user._id, { firstName: 'Duncan' }), done);
   });
 });

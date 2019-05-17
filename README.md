@@ -10,7 +10,7 @@ Let's go is an application for finding new friends.
 ### How to Use
 After cloning the repository, do the following.
 - Always run `mongod` in a seperate terminal to 
-start up the local db server first
+start up your local db server first
 - Run `yarn` to install all dependencies
 - Run `yarn start` to start the dev server
 - Run `yarn test` to test

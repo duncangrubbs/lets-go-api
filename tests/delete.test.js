@@ -12,8 +12,9 @@ describe('Deleting a User', () => {
 
   beforeEach((done) => {
     user = new User({
-      name: 'Duncan Grubbs',
-      birthdate: '01-09-1999',
+      firstName: 'Duncan',
+      lastName: 'Grubbs',
+      birthdate: 938070000000,
       location: 'Rochester, NY',
       bio: 'Love the Outdoors!',
       email: 'duncan.grubbs@gmail.com',
@@ -26,7 +27,7 @@ describe('Deleting a User', () => {
 
   it('removes a user using its instance', (done) => {
     user.remove()
-      .then(() => User.findOne({ name: 'Duncan Grubbs' }))
+      .then(() => User.findOne({ firstName: 'Duncan' }))
       .then((pole) => {
         assert(pole === null);
         done();
@@ -34,8 +35,8 @@ describe('Deleting a User', () => {
   });
 
   it('removes multiple users', (done) => {
-    User.deleteOne({ name: 'Duncan Grubbs' })
-      .then(() => User.findOne({ name: 'Duncan Grubbs' }))
+    User.deleteOne({ firstName: 'Duncan' })
+      .then(() => User.findOne({ firstName: 'Duncan' }))
       .then((pole) => {
         assert(pole === null);
         done();
@@ -43,10 +44,10 @@ describe('Deleting a User', () => {
   });
 
   it('removes a user', (done) => {
-    User.deleteOne({ name: 'Duncan Grubbs' })
-      .then(() => User.findOne({ name: 'Duncan Grubbs' }))
-      .then((pokemon) => {
-        assert(pokemon === null);
+    User.deleteOne({ firstName: 'Duncan' })
+      .then(() => User.findOne({ firstName: 'Duncan' }))
+      .then((pole) => {
+        assert(pole === null);
         done();
       });
   });
@@ -55,8 +56,8 @@ describe('Deleting a User', () => {
     User.deleteOne({ _id: user._id })
     // the following code block is repeated again and again
       .then(() => User.findOne({ _id: user.id }))
-      .then((pokemon) => {
-        assert(pokemon === null);
+      .then((pole) => {
+        assert(pole === null);
         done();
       });
     // block end

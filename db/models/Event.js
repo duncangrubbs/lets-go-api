@@ -13,7 +13,7 @@ const Event = new mongoose.Schema({
   owner: { type: String, required: true },
   attendees: { type: Array, required: false, default: [] },
   date: { type: Number, required: true },
-  dateCreated: { type: Number, required: true, default: Date.now() },
+  dateCreated: { type: Number, default: Date.now() },
 }, { collection: 'events' });
 
 Event.methods.isExpired = function () {
