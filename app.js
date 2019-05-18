@@ -9,6 +9,7 @@ import logger from 'morgan';
 
 import mongoose from 'mongoose';
 import dbConfig from './config/database';
+import config from './config/config';
 
 // API Routes
 import auth from './routes/auth';
@@ -38,8 +39,9 @@ mongoose.connect(
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/api/auth', auth);
-app.use('/api/events', events);
+// Routes, split by topic
+app.use(`/api/${config.API_VERSION}/auth`, auth);
+app.use(`/api/${config.API_VERSION}/events`, events);
 
 // Catch-all
 app.get('*', (req, res) => {

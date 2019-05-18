@@ -9,11 +9,13 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
 
+import config from '../config/config';
+
 // Configure chai
 chai.use(chaiHttp);
 chai.should();
 
-const baseURL = '/api/events';
+const baseURL = `/api/${config.API_VERSION}/events`;
 
 describe('Events Route Tests', () => {
   describe('Route Ensure', () => {

@@ -5,9 +5,13 @@
 ### An API for the **Let's Go** app.
 
 ### What is Let's Go?
-Let's go is an application for finding new friends.
+Let's Go is an application for finding new friends.
+Users can post activities that they are interested in doing, and other users can
+request to join.
 
-### How to Use
+---
+
+### Getting Started
 After cloning the repository, do the following.
 - Always run `mongod` in a seperate terminal to 
 start up your local db server first

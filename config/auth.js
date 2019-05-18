@@ -6,7 +6,7 @@
 
 import jwt from 'express-jwt';
 
-const SECRET_KEY = process.env.SECRET || 'secret';
+const SECRET_KEY = process.env.JWT_SECRET || 'secret';
 
 const getTokenFromHeaders = (req) => {
   const { header: { authorization } } = req;
