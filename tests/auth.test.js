@@ -56,13 +56,13 @@ describe('Auth Route Tests', () => {
         });
     });
 
-    it('login should return a status of 410', (done) => {
+    it('login should return a status of 200', (done) => {
       chai.request(app)
         .post(`${baseURL}/login`)
         .set('content-type', 'application/json')
         .send({ user: login_user })
         .end((err, res) => {
-          res.should.have.status(410);
+          res.should.have.status(200);
           res.body.should.be.a('object');
           done();
         });

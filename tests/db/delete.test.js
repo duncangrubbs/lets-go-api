@@ -5,7 +5,7 @@
  */
 
 const assert = require('assert');
-import User from '../db/models/User';
+import User from '../../db/models/User';
 
 describe('Deleting a User', () => {
   let user;

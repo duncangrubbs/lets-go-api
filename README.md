@@ -29,6 +29,7 @@ start up your local db server first
 5. [MongoDB](https://www.mongodb.com/) - JSON database
 6. [Mocha](https://mochajs.org/) - Javascript test assertion library
 7. [Chai](https://www.chaijs.com/) - For simulating HTTP requests when testing
+8. [dotenv](https://github.com/motdotla/dotenv) - For managing environment variables
 
 I am using mongoDBCompass and Postman as resources for testing the API routes
 and the database.

@@ -4,5 +4,7 @@ yarn.lock
 .vscode
 /*/lint-report.html
 
+.env
+
 .nyc_output
 /coverage

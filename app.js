@@ -15,6 +15,8 @@ import config from './config/config';
 import auth from './routes/auth';
 import events from './routes/events';
 
+require('dotenv').config();
+
 // Declare constants
 const app = express();
 const PORT = process.env.PORT || 5000;

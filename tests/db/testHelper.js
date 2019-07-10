@@ -6,7 +6,7 @@
 
 import mongoose from 'mongoose';
 
-import dbConfig from '../config/database';
+import dbConfig from '../../config/database';
 
 // tell mongoose to use es6 implementation of promises
 mongoose.Promise = global.Promise;
@@ -22,8 +22,8 @@ mongoose.connection
     console.warn('Error: ', error); // eslint-disable-line
   });
 
-// clear DB before running these test
-before((done) => { // eslint-disable-line
+// Called hooks which runs before something.
+beforeEach((done) => { // eslint-disable-line
   mongoose.connection.collections.users.drop(() => {
     // this function runs after the drop is completed
     done(); // go ahead everything is done now.

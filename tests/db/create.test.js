@@ -5,7 +5,7 @@
  */
 
 const assert = require('assert');
-import User from '../db/models/User';
+import User from '../../db/models/User';
 
 describe('Creating documents', () => {
   it('creates a user', (done) => {

@@ -1,6 +1,6 @@
 /**
  * @file config.js
- * @description Config of API.
+ * @description Configuration of API.
  * @author Duncan Grubbs <duncan.grubbs@gmail.com>
  */
 

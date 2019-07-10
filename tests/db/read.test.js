@@ -5,7 +5,7 @@
  */
 
 const assert = require('assert');
-import User from '../db/models/User';
+import User from '../../db/models/User';
 
 describe('Reading User details', () => {
   let sampleUser;
