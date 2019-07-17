@@ -9,7 +9,7 @@ import jwt from 'express-jwt';
 const SECRET_KEY = process.env.JWT_SECRET || 'secret';
 
 const getTokenFromHeaders = (req) => {
-  const { header: { authorization } } = req;
+  const { headers: { authorization } } = req;
 
   if (authorization && authorization.split(' ')[0] === 'Token') {
     return authorization.split(' ')[1];

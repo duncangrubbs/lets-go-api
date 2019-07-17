@@ -32,11 +32,11 @@ describe('Events Route Tests', () => {
 
   // create-event route
   describe('POST /create-event', () => {
-    it('should return a status of 201', (done) => {
+    it('should return a status of 401', (done) => {
       chai.request(app)
         .post(`${baseURL}/create-event`)
         .end((err, res) => {
-          res.should.have.status(201);
+          res.should.have.status(401);
           res.body.should.be.a('object');
           done();
         });

@@ -77,7 +77,7 @@ router.post('/signup', auth.optional, (req, res) => {
 
 // GET requests
 router.get('/', (req, res) => {
-  res.status(200).json({ msg: 'AUTH OK' });
+  res.status(200).json({ message: 'AUTH OK' });
 });
 
 module.exports = router;
