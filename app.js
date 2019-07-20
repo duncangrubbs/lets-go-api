@@ -45,6 +45,16 @@ app.use(bodyParser.json());
 app.use(`/api/${config.API_VERSION}/auth`, auth);
 app.use(`/api/${config.API_VERSION}/events`, events);
 
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    return res.status(401).send({
+      success: false,
+      message: 'No token provided.',
+    });
+  }
+  return next();
+});
+
 // TODO: error handling
 
 // Catch-all

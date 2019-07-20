@@ -10,6 +10,7 @@ import chaiHttp from 'chai-http';
 import app from '../app';
 
 import config from '../config/config';
+import User from '../db/models/User';
 
 // Configure chai
 chai.use(chaiHttp);
@@ -30,24 +31,26 @@ describe('Auth Route Tests', () => {
     });
   });
 
-  const user = {
+  const signup_user = {
     email: "duncan@gmail.com",
     firstName: 'Duncan',
     lastName: 'Grubbs',
-    password: 'test',
+    password: 'password',
     birthdate: 938070000000,
   };
 
-  const login_user = {
+  const signup_user_bad = {
     email: "duncan@gmail.com",
-    password: 'test',
+    firstName: 'Duncan',
+    lastName: 'Grubbs',
+    birthdate: 938070000000,
   };
 
-  describe('signup and login', () => {
+  describe('signup', () => {
     it('signup should return a status of 201', (done) => {
       chai.request(app)
         .post(`${baseURL}/signup`)
-        .send({ user }) // sends a JSON post body
+        .send({ user: signup_user }) // sends a JSON post body
         .set('accept', 'json')
         .end((err, res) => {
           res.should.have.status(201);
@@ -56,16 +59,75 @@ describe('Auth Route Tests', () => {
         });
     });
 
-    it('login should return a status of 200', (done) => {
+    it('signup should return a status of 422', (done) => {
       chai.request(app)
+        .post(`${baseURL}/signup`)
+        .send({ user: signup_user_bad }) // sends a JSON post body
+        .set('accept', 'json')
+        .end((err, res) => {
+          res.should.have.status(422);
+          res.body.should.be.a('object');
+          done();
+        });
+    });
+  });
+
+  describe('login', () => {
+    // create mock user to test login
+    const sampleUser = new User({
+      firstName: 'Duncan',
+      lastName: 'Grubbs',
+      password: 'password',
+      birthdate: 938070000000,
+      location: 'Rochester, NY',
+      bio: 'Love the Outdoors!',
+      email: 'duncan@gmail.com',
+    });
+    sampleUser.setPassword('password');
+
+    const login_user_correct = {
+      email: "duncan@gmail.com",
+      password: 'password',
+    };
+
+    const login_user_incorrect_pass = {
+      email: "duncan@gmail.com",
+      password: 'wrong',
+    };
+
+    const login_user_incorrect_email = {
+      email: "duncan.grubbs@gmail.com",
+      password: 'password',
+    };
+
+    it('login should return a status of 200', (done) => {
+      sampleUser.save()
+      .then((err) => {
+        chai.request(app)
         .post(`${baseURL}/login`)
         .set('content-type', 'application/json')
-        .send({ user: login_user })
+        .send({ user: login_user_correct })
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           done();
         });
+      })
+    });
+
+    it('login should return a status of 410', (done) => {
+      sampleUser.save()
+      .then((err) => {
+        chai.request(app)
+        .post(`${baseURL}/login`)
+        .set('content-type', 'application/json')
+        .send({ user: login_user_incorrect_pass })
+        .end((err, res) => {
+          res.should.have.status(410);
+          res.body.should.be.a('object');
+          done();
+        });
+      })
     });
   });
 });

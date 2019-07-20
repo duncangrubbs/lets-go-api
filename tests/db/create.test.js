@@ -19,8 +19,6 @@ describe('Creating documents', () => {
       location: 'Rochester, NY',
       bio: 'Love the Outdoors!',
       email: 'duncan.grubbs@gmail.com',
-      hash: 'skdhgow3hg984g89bg',
-      salt: '9824h98hg3igg3igub',
     });
     sampleUser.save()
       .then((err) => {

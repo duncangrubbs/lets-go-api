@@ -10,6 +10,8 @@ import dbConfig from '../config/database';
 
 // tell mongoose to use es6 implementation of promises
 mongoose.Promise = global.Promise;
+
+// connect to the database
 mongoose.connect(
   dbConfig.url,
   {
@@ -23,7 +25,7 @@ mongoose.connection
   });
 
 // clear DB before running these test
-before((done) => { // eslint-disable-line
+beforeEach((done) => { // eslint-disable-line
   mongoose.connection.collections.users.drop(() => {
     // this function runs after the drop is completed
     done(); // go ahead everything is done now.

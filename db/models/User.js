@@ -20,8 +20,8 @@ const User = new mongoose.Schema({
   bio: { type: String, required: false },
   pastEvents: { type: Array, required: false },
 
-  hash: { type: String, default: null, required: true },
-  salt: { type: String, default: null, required: true },
+  hash: { type: String, default: null, required: false },
+  salt: { type: String, default: null, required: false },
   dateCreated: { type: Number, default: Date.now() },
 }, { collection: 'users' });
 

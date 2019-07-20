@@ -65,7 +65,7 @@ router.post('/signup', auth.optional, (req, res) => {
   }
 
   User.findOne({ email: user.email }, (err, response) => {
-    if (response) { return res.status(409).json({ error: 'User Already Exists' }); }
+    if (response) { res.status(409).json({ error: 'User Already Exists' }); }
     const finalUser = new User(user);
     // Hash and salt the password
     finalUser.setPassword(user.password);
