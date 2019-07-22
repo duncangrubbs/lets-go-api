@@ -1,7 +1,7 @@
 /**
  * @file config.js
  * @description Configuration of API.
- * @author Duncan Grubbs <duncan.grubbs@gmail.com>
+ * @author Duncan Grubbs
  */
 
 const config = {

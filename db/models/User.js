@@ -1,7 +1,7 @@
 /* eslint-disable func-names */
 /**
  * @file User.js
- * @author Duncan Grubbs <duncan.grubbs@gmail.com>
+ * @author Duncan Grubbs
  */
 
 import mongoose from 'mongoose';

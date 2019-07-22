@@ -1,7 +1,7 @@
 /**
  * @file auth.js
  * @description All requests are sorted alphabetically, and by type.
- * @author Duncan Grubbs <duncan.grubbs@gmail.com>
+ * @author Duncan Grubbs
  */
 
 import express from 'express';

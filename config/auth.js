@@ -1,7 +1,7 @@
 /**
  * @file auth.js
  * @description Auth management.
- * @author Duncan Grubbs <duncan.grubbs@gmail.com>
+ * @author Duncan Grubbs
  */
 
 import jwt from 'express-jwt';

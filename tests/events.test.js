@@ -1,7 +1,7 @@
 /**
  * @file events.test.js
  * @description Test Suite, Events routes.
- * @author Duncan Grubbs <duncan.grubbs@gmail.com>
+ * @author Duncan Grubbs
  */
 
 // Import the dependencies for testing

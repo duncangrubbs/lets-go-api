@@ -1,7 +1,7 @@
 /**
  * @file events.js
  * @description All requests are sorted alphabetically, and by type.
- * @author Duncan Grubbs <duncan.grubbs@gmail.com>
+ * @author Duncan Grubbs
  */
 
 import express from 'express';
@@ -31,7 +31,7 @@ router.get('/public/:page', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  res.status(200).json({ message: 'EVENTS ROUTER UP' });
+  res.status(200).json({ message: 'EVENTS OK' });
 });
 
 module.exports = router;

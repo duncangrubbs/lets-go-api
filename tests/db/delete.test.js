@@ -1,7 +1,7 @@
 /**
  * @file delete.test.js
  * @description Test Suite, cruD.
- * @author Duncan Grubbs <duncan.grubbs@gmail.com>
+ * @author Duncan Grubbs
  */
 
 const assert = require('assert');

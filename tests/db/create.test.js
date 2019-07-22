@@ -1,7 +1,7 @@
 /**
  * @file auth.test.js
  * @description Test Suite, Crud.
- * @author Duncan Grubbs <duncan.grubbs@gmail.com>
+ * @author Duncan Grubbs
  */
 
 const assert = require('assert');

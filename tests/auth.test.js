@@ -1,7 +1,7 @@
 /**
  * @file auth.test.js
  * @description Test Suite, Auth routes.
- * @author Duncan Grubbs <duncan.grubbs@gmail.com>
+ * @author Duncan Grubbs
  */
 
 // Import the dependencies for testing
