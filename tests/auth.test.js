@@ -59,7 +59,7 @@ describe('Auth Route Tests', () => {
         });
     });
 
-    it('signup should return a status of 422', (done) => {
+    it('signup with wrong info should return a status of 422', (done) => {
       chai.request(app)
         .post(`${baseURL}/signup`)
         .send({ user: signup_user_bad }) // sends a JSON post body
@@ -115,19 +115,36 @@ describe('Auth Route Tests', () => {
       })
     });
 
-    it('login should return a status of 410', (done) => {
-      sampleUser.save()
-      .then((err) => {
-        chai.request(app)
-        .post(`${baseURL}/login`)
-        .set('content-type', 'application/json')
-        .send({ user: login_user_incorrect_pass })
-        .end((err, res) => {
-          res.should.have.status(410);
-          res.body.should.be.a('object');
-          done();
-        });
-      })
+    describe('Incorrect Logins', () => {
+      it('login with wrong email should return a status of 410', (done) => {
+        sampleUser.save()
+        .then((err) => {
+          chai.request(app)
+          .post(`${baseURL}/login`)
+          .set('content-type', 'application/json')
+          .send({ user: login_user_incorrect_email })
+          .end((err, res) => {
+            res.should.have.status(410);
+            res.body.should.be.a('object');
+            done();
+          });
+        })
+      });
+  
+      it('login with wrong password should return a status of 410', (done) => {
+        sampleUser.save()
+        .then((err) => {
+          chai.request(app)
+          .post(`${baseURL}/login`)
+          .set('content-type', 'application/json')
+          .send({ user: login_user_incorrect_pass })
+          .end((err, res) => {
+            res.should.have.status(410);
+            res.body.should.be.a('object');
+            done();
+          });
+        })
+      });
     });
   });
 });

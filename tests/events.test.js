@@ -16,6 +16,7 @@ chai.use(chaiHttp);
 chai.should();
 
 const baseURL = `/api/${config.API_VERSION}/events`;
+const authToken = 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImR1bmNhbkBnbWFpbC5jb20iLCJpZCI6IjVkMmY4N2Q0ZDFmM2VkM2VhNDBjZDFkZSIsImV4cCI6MTU2ODU4MDgzOSwiaWF0IjoxNTYzMzk2ODM5fQ.kPxXblOecyFmCVdvzdVO0TVovUPaCbQpicU6W9QpXtk';
 
 describe('Events Route Tests', () => {
   describe('Route Ensure', () => {
@@ -30,13 +31,23 @@ describe('Events Route Tests', () => {
     });
   });
 
+  const event = {
+    title: "Test event",
+    location: "San Anselmo",
+    description: "Just a quick sesh",
+    owner: "ashfasif783hfkjsdgn",
+    date: 1563398240051
+  };
+
   // create-event route
   describe('POST /create-event', () => {
-    it('should return a status of 401', (done) => {
+    it('should return a status of 201', (done) => {
       chai.request(app)
         .post(`${baseURL}/create-event`)
+        .set('Authorization', authToken)
+        .send({ event })
         .end((err, res) => {
-          res.should.have.status(401);
+          res.should.have.status(201);
           res.body.should.be.a('object');
           done();
         });

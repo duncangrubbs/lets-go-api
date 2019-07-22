@@ -21,7 +21,7 @@ describe('Creating documents', () => {
       email: 'duncan.grubbs@gmail.com',
     });
     sampleUser.save()
-      .then((err) => {
+      .then(() => {
         assert(!sampleUser.isNew);
         done();
       })
