@@ -11,6 +11,8 @@ import auth from '../config/auth';
 
 const router = express.Router();
 
+const PER_PAGE_LIMIT = 40;
+
 // POST requests
 router.post('/create-event', auth.required, (req, res) => {
   const { body: { event: eventBlob } } = req;
@@ -18,6 +20,9 @@ router.post('/create-event', auth.required, (req, res) => {
   event.save()
     .then(() => {
       res.status(201).json({ message: 'ADDED EVENT', event: eventBlob });
+    })
+    .catch((error) => {
+      res.status(400).json({ message: error });
     });
 });
 
@@ -27,7 +32,14 @@ router.get('/nearby/:radius', (req, res) => {
 });
 
 router.get('/public/:page', (req, res) => {
-  res.status(200).json({ message: 'GET ALL EVENTS OK' });
+  Event
+    .find()
+    .sort({ date: -1 })
+    .limit(PER_PAGE_LIMIT)
+    .exec((error, events) => {
+      if (error) { res.status(400).json({ error }); }
+      res.status(200).json({ events });
+    });
 });
 
 router.get('/', (req, res) => {
