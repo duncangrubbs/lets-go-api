@@ -55,7 +55,7 @@ app.get('*', (req, res) => {
 
 // Start the server
 const server = app.listen(PORT, () => {
-  console.log(`API app listening at port ${PORT}`); // eslint-disable-line
+  console.log(`API listening at port ${PORT}`); // eslint-disable-line
 });
 
 module.exports = server;
