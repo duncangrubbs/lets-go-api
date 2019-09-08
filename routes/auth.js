@@ -1,6 +1,6 @@
 /**
  * @file auth.js
- * @description All requests are sorted alphabetically, and by type.
+ * @description All requests are sorted alphabetically and by type.
  * @author Duncan Grubbs
  */
 
@@ -10,14 +10,15 @@ import User from '../db/models/User';
 import auth from '../config/auth';
 
 const router = express.Router();
+// 18 years = 569203200000 ms
+const EIGHTEEN_YEARS = 569203200000;
 
 /**
  * Validates that a user's age is at least 18
  * @param {Number} birthdate Birthdate in UNIX time
  */
 function validateAge(birthdate) {
-  // 18 years = 569203200000 ms
-  if (birthdate + 569203200000 <= Date.now()) { return true; }
+  if (birthdate + EIGHTEEN_YEARS <= Date.now()) { return true; }
   return false;
 }
 
