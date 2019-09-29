@@ -27,11 +27,11 @@ router.post('/create-event', auth.required, (req, res) => {
 });
 
 // GET requests
-router.get('/nearby/:radius', (req, res) => {
+router.get('/nearby/:radius', auth.optional, (req, res) => {
   res.status(200).json({ message: 'GET NEARBY EVENTS OK' });
 });
 
-router.get('/public/:page', (req, res) => {
+router.get('/public/:page', auth.optional, (req, res) => {
   Event
     .find()
     .sort({ date: -1 })

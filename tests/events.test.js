@@ -11,12 +11,13 @@ import app from '../app';
 
 import config from '../config/config';
 
+import User from '../db/models/User';
+
 // Configure chai
 chai.use(chaiHttp);
 chai.should();
 
 const baseURL = `/api/${config.API_VERSION}/events`;
-const authToken = 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImR1bmNhbkBnbWFpbC5jb20iLCJpZCI6IjVkMmY4N2Q0ZDFmM2VkM2VhNDBjZDFkZSIsImV4cCI6MTU2ODU4MDgzOSwiaWF0IjoxNTYzMzk2ODM5fQ.kPxXblOecyFmCVdvzdVO0TVovUPaCbQpicU6W9QpXtk';
 
 describe('Events Route Tests', () => {
   describe('Route Ensure', () => {
@@ -39,18 +40,34 @@ describe('Events Route Tests', () => {
     date: 1563398240051
   };
 
+  const sampleUser = new User({
+    firstName: 'Duncan',
+    lastName: 'Grubbs',
+    password: 'password',
+    birthdate: 938070000000,
+    location: 'Rochester, NY',
+    bio: 'Love the Outdoors!',
+    email: 'duncan@gmail.com',
+  });
+  sampleUser.setPassword('password');
+
+  const authToken = sampleUser.generateJWT();
+
   // create-event route
   describe('POST /create-event', () => {
     it('should return a status of 201', (done) => {
-      chai.request(app)
+      sampleUser.save()
+      .then((err) => {
+        chai.request(app)
         .post(`${baseURL}/create-event`)
-        .set('Authorization', authToken)
+        .set('Authorization', `Token ${authToken}`)
         .send({ event })
         .end((err, res) => {
           res.should.have.status(201);
           res.body.should.be.a('object');
           done();
         });
+      })
     });
   });
 
