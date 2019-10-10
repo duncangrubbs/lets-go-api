@@ -20,7 +20,7 @@ const Event = new mongoose.Schema({
 }, { collection: 'events' });
 
 Event.methods.isExpired = function () {
-  return Date.now() >= this.date();
+  return Date.now() >= this.date;
 };
 
 Event.methods.isFull = function () {

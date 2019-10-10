@@ -12,6 +12,7 @@ import app from '../app';
 import config from '../config/config';
 
 import User from '../db/models/User';
+import Event from '../db/models/Event';
 
 // Configure chai
 chai.use(chaiHttp);
@@ -39,6 +40,16 @@ describe('Events Route Tests', () => {
     owner: "ashfasif783hfkjsdgn",
     date: 1563398240051
   };
+
+  const sampleEvent = new Event({
+    title: "Test event",
+    location: "San Anselmo",
+    description: "Just a quick sesh",
+    owner: "ashfasif783hfkjsdgn",
+    date: 1563398240051
+  });
+
+  const sampleEventID = sampleEvent._id;
 
   const sampleUser = new User({
     firstName: 'Duncan',
@@ -68,6 +79,27 @@ describe('Events Route Tests', () => {
           done();
         });
       })
+    });
+  });
+
+  // create-event route
+  describe('PUT /attend', () => {
+    it('should return a status of 200', (done) => {
+      sampleUser.save()
+      .then(() => {
+        sampleEvent.save()
+        .then(() => {
+          chai.request(app)
+          .put(`${baseURL}/attend`)
+          .set('Authorization', `Token ${authToken}`)
+          .send({ eventID: sampleEventID })
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            done();
+          });
+        })
+      });
     });
   });
 

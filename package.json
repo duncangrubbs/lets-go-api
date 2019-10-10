@@ -7,7 +7,7 @@
   "scripts": {
     "start": "nodemon --exec babel-node app.js",
     "test": "mocha --require babel-register --recursive tests --exit",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc report",
     "lint": "eslint -o ./tests/lint-report.html -f html *"
   },
   "license": "ISC",

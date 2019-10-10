@@ -13,6 +13,21 @@ const router = express.Router();
 
 const PER_PAGE_LIMIT = 40;
 
+// Helper Methods
+/**
+ * Removes expired or full capacity events.
+ * @param {Array} events Array of events to validate.
+ */
+function excludeBadEvents(events) {
+  const newEvents = [];
+  events.forEach((event) => {
+    if (!event.isExpired() && !event.isFull()) {
+      newEvents.push(event);
+    }
+  });
+  return newEvents;
+}
+
 // POST requests
 router.post('/create-event', auth.required, (req, res) => {
   const { body: { event: eventBlob } } = req;
@@ -23,6 +38,22 @@ router.post('/create-event', auth.required, (req, res) => {
     })
     .catch((error) => {
       res.status(400).json({ message: error });
+    });
+});
+
+// PUT requests
+router.put('/attend/', auth.required, (req, res) => {
+  const { payload: { id } } = req;
+  const { body: { eventID } } = req;
+  Event.updateOne(
+    { _id: eventID },
+    { $push: { attendees: id } },
+  )
+    .then((error, blob) => {
+      res.status(200).json({ message: 'ATTEND OK', data: blob });
+    })
+    .catch((error) => {
+      res.status(400).json({ error });
     });
 });
 
@@ -38,7 +69,7 @@ router.get('/public/:page', auth.optional, (req, res) => {
     .limit(PER_PAGE_LIMIT)
     .exec((error, events) => {
       if (error) { res.status(400).json({ error }); }
-      res.status(200).json({ events });
+      res.status(200).json({ events: excludeBadEvents(events) });
     });
 });
 
