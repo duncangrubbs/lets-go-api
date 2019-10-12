@@ -13,7 +13,6 @@ const router = express.Router();
 
 const PER_PAGE_LIMIT = 40;
 
-// Helper Methods
 /**
  * Removes expired or full capacity events.
  * @param {Array} events Array of events to validate.
@@ -29,6 +28,10 @@ function excludeBadEvents(events) {
 }
 
 // POST requests
+/**
+ * @description Saves a new event to the DB
+ * @access Restricted
+ */
 router.post('/create-event', auth.required, (req, res) => {
   const { body: { event: eventBlob } } = req;
   const event = new Event(eventBlob);
@@ -42,7 +45,11 @@ router.post('/create-event', auth.required, (req, res) => {
 });
 
 // PUT requests
-router.put('/attend/', auth.required, (req, res) => {
+/**
+ * @description Adds a user to the attendence list of an event
+ * @access Restricted
+ */
+router.put('/attend', auth.required, (req, res) => {
   const { payload: { id } } = req;
   const { body: { eventID } } = req;
   Event.updateOne(
@@ -58,11 +65,20 @@ router.put('/attend/', auth.required, (req, res) => {
 });
 
 // GET requests
+/**
+ * @description Returns list of events posted within
+ * the given radius
+ * @access Public
+ */
 router.get('/nearby/:radius', auth.optional, (req, res) => {
   res.status(200).json({ message: 'GET NEARBY EVENTS OK' });
 });
 
-router.get('/public/:page', auth.optional, (req, res) => {
+/**
+ * @description Returns list of public events for a given page
+ * @access Restricted
+ */
+router.get('/public/:page', auth.required, (req, res) => {
   Event
     .find()
     .sort({ date: -1 })

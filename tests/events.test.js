@@ -119,13 +119,17 @@ describe('Events Route Tests', () => {
   // public route
   describe('GET /public', () => {
     it('should return a status of 200', (done) => {
-      chai.request(app)
+      sampleUser.save()
+      .then((err) => {
+        chai.request(app)
         .get(`${baseURL}/public/3`)
+        .set('Authorization', `Token ${authToken}`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           done();
         });
+      })
     });
   });
 });

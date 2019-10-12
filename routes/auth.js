@@ -1,6 +1,7 @@
 /**
  * @file auth.js
- * @description All requests are sorted alphabetically and by type.
+ * @description All requests are sorted alphabetically and by type,
+ * e.g. GET, POST, PUT
  * @author Duncan Grubbs
  */
 
