@@ -20,14 +20,40 @@ const baseURL = `/api/${config.API_VERSION}/auth`;
 
 describe('Auth Route Tests', () => {
   describe('Route Ensure', () => {
-    it('should return a status of 200', (done) => {
+    const sampleUser = new User({
+      firstName: 'Duncan',
+      lastName: 'Grubbs',
+      password: 'password',
+      birthdate: 938070000000,
+      location: 'Rochester, NY',
+      bio: 'Love the Outdoors!',
+      email: 'duncan@gmail.com',
+    });
+    sampleUser.setPassword('password');
+  
+    const authToken = sampleUser.generateJWT();
+
+    it('should fail with no auth', (done) => {
       chai.request(app)
         .get(baseURL)
         .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
+          res.should.have.status(401);
           done();
         });
+    });
+
+    it('should return 200 and user', (done) => {
+      sampleUser.save()
+      .then((err) => {
+        chai.request(app)
+          .get(baseURL)
+          .set('Authorization', `Token ${authToken}`)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            done();
+          });
+      });
     });
   });
 

@@ -42,9 +42,10 @@ function validateFieldsSignup(user) {
 
 /**
  * @description Logs in a user
- * @access Public
+ * @access PUBLIC
+ * @type POST
  */
-router.post('/login', auth.optional, (req, res) => {
+function login(req, res) {
   const { body: { user } } = req;
   User.findOne({ email: user.email }, (err, response) => {
     if (!response) { return res.status(410).json({ error: 'Incorrect Email' }); }
@@ -53,13 +54,14 @@ router.post('/login', auth.optional, (req, res) => {
     }
     return res.status(400).json({ error: 'Incorrect Password' });
   });
-});
+}
 
 /**
  * @description Signs up a user
- * @access Public
+ * @access PUBLIC
+ * @type POST
  */
-router.post('/signup', auth.optional, (req, res) => {
+function signup(req, res) {
   const { body: { user } } = req;
 
   if (!validateFieldsSignup(user)) {
@@ -75,11 +77,21 @@ router.post('/signup', auth.optional, (req, res) => {
     finalUser.save()
       .then(() => res.status(201).json({ user: finalUser.toAuthJSON() }));
   });
-});
+}
 
-// GET requests
-router.get('/', (req, res) => {
-  res.status(200).json({ message: 'AUTH OK' });
-});
+/**
+ * @description GET /api/version/auth
+ * @access PUBLIC
+ * @type RESTRICTED
+ */
+function main(req, res) {
+  const { payload } = req;
+  res.status(200).json({ message: 'AUTH OK', payload });
+}
+
+router.post('/login', auth.optional, login);
+router.post('/signup', auth.optional, signup);
+
+router.get('/', auth.required, main);
 
 module.exports = router;

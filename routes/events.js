@@ -27,12 +27,12 @@ function excludeBadEvents(events) {
   return newEvents;
 }
 
-// POST requests
 /**
  * @description Saves a new event to the DB
- * @access Restricted
+ * @access RESTRICTED
+ * @type POST
  */
-router.post('/create-event', auth.required, (req, res) => {
+function createEvent(req, res) {
   const { body: { event: eventBlob } } = req;
   const event = new Event(eventBlob);
   event.save()
@@ -42,14 +42,14 @@ router.post('/create-event', auth.required, (req, res) => {
     .catch((error) => {
       res.status(400).json({ message: error });
     });
-});
+}
 
-// PUT requests
 /**
  * @description Adds a user to the attendence list of an event
- * @access Restricted
+ * @access RESTRICTED
+ * @type PUT
  */
-router.put('/attend', auth.required, (req, res) => {
+function attend(req, res) {
   const { payload: { id } } = req;
   const { body: { eventID } } = req;
   Event.updateOne(
@@ -62,23 +62,24 @@ router.put('/attend', auth.required, (req, res) => {
     .catch((error) => {
       res.status(400).json({ error });
     });
-});
+}
 
-// GET requests
 /**
  * @description Returns list of events posted within
  * the given radius
- * @access Public
+ * @access PUBLIC
+ * @type GET
  */
-router.get('/nearby/:radius', auth.optional, (req, res) => {
+function nearby(req, res) {
   res.status(200).json({ message: 'GET NEARBY EVENTS OK' });
-});
+}
 
 /**
  * @description Returns list of public events for a given page
  * @access Restricted
+ * @type GET
  */
-router.get('/public/:page', auth.required, (req, res) => {
+function publicEvents(req, res) {
   Event
     .find()
     .sort({ date: -1 })
@@ -87,10 +88,23 @@ router.get('/public/:page', auth.required, (req, res) => {
       if (error) { res.status(400).json({ error }); }
       res.status(200).json({ events: excludeBadEvents(events) });
     });
-});
+}
 
-router.get('/', (req, res) => {
+/**
+ * @description GET /api/version/events
+ * @access PUBLIC
+ * @type GET
+ */
+function main(req, res) {
   res.status(200).json({ message: 'EVENTS OK' });
-});
+}
+
+router.post('/create-event', auth.required, createEvent);
+
+router.put('/attend', auth.required, attend);
+
+router.get('/nearby/:radius', auth.optional, nearby);
+router.get('/public/:page', auth.required, publicEvents);
+router.get('/', auth.optional, main);
 
 module.exports = router;
