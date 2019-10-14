@@ -68,7 +68,7 @@ describe('Events Route Tests', () => {
   describe('POST /create-event', () => {
     it('should return a status of 201', (done) => {
       sampleUser.save()
-      .then((err) => {
+      .then(() => {
         chai.request(app)
         .post(`${baseURL}/create-event`)
         .set('Authorization', `Token ${authToken}`)
@@ -120,7 +120,7 @@ describe('Events Route Tests', () => {
   describe('GET /public', () => {
     it('should return a status of 200', (done) => {
       sampleUser.save()
-      .then((err) => {
+      .then(() => {
         chai.request(app)
         .get(`${baseURL}/public/3`)
         .set('Authorization', `Token ${authToken}`)

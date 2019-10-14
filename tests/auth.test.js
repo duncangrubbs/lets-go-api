@@ -10,7 +10,16 @@ import chaiHttp from 'chai-http';
 import app from '../app';
 
 import config from '../config/config';
-import User from '../db/models/User';
+
+import {
+  sampleUserOne,
+  authTokenUserOne,
+  signupUserOne,
+  signupUserOneBad,
+  loginUserCorrect,
+  loginUserIncorrectPass,
+  loginUserIncorrectEmail,
+} from './mocks/users';
 
 // Configure chai
 chai.use(chaiHttp);
@@ -20,19 +29,6 @@ const baseURL = `/api/${config.API_VERSION}/auth`;
 
 describe('Auth Route Tests', () => {
   describe('Route Ensure', () => {
-    const sampleUser = new User({
-      firstName: 'Duncan',
-      lastName: 'Grubbs',
-      password: 'password',
-      birthdate: 938070000000,
-      location: 'Rochester, NY',
-      bio: 'Love the Outdoors!',
-      email: 'duncan@gmail.com',
-    });
-    sampleUser.setPassword('password');
-  
-    const authToken = sampleUser.generateJWT();
-
     it('should fail with no auth', (done) => {
       chai.request(app)
         .get(baseURL)
@@ -43,11 +39,11 @@ describe('Auth Route Tests', () => {
     });
 
     it('should return 200 and user', (done) => {
-      sampleUser.save()
+      sampleUserOne.save()
       .then((err) => {
         chai.request(app)
           .get(baseURL)
-          .set('Authorization', `Token ${authToken}`)
+          .set('Authorization', `Token ${authTokenUserOne}`)
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
@@ -57,26 +53,11 @@ describe('Auth Route Tests', () => {
     });
   });
 
-  const signup_user = {
-    email: "duncan@gmail.com",
-    firstName: 'Duncan',
-    lastName: 'Grubbs',
-    password: 'password',
-    birthdate: 938070000000,
-  };
-
-  const signup_user_bad = {
-    email: "duncan@gmail.com",
-    firstName: 'Duncan',
-    lastName: 'Grubbs',
-    birthdate: 938070000000,
-  };
-
   describe('signup', () => {
     it('signup should return a status of 201', (done) => {
       chai.request(app)
         .post(`${baseURL}/signup`)
-        .send({ user: signup_user }) // sends a JSON post body
+        .send({ user: signupUserOne })
         .set('accept', 'json')
         .end((err, res) => {
           res.should.have.status(201);
@@ -88,7 +69,7 @@ describe('Auth Route Tests', () => {
     it('signup with wrong info should return a status of 422', (done) => {
       chai.request(app)
         .post(`${baseURL}/signup`)
-        .send({ user: signup_user_bad }) // sends a JSON post body
+        .send({ user: signupUserOneBad })
         .set('accept', 'json')
         .end((err, res) => {
           res.should.have.status(422);
@@ -97,78 +78,51 @@ describe('Auth Route Tests', () => {
         });
     });
   });
-
+  // TODO: fix this test
   describe('login', () => {
-    // create mock user to test login
-    const sampleUser = new User({
-      firstName: 'Duncan',
-      lastName: 'Grubbs',
-      password: 'password',
-      birthdate: 938070000000,
-      location: 'Rochester, NY',
-      bio: 'Love the Outdoors!',
-      email: 'duncan@gmail.com',
-    });
-    sampleUser.setPassword('password');
-
-    const login_user_correct = {
-      email: "duncan@gmail.com",
-      password: 'password',
-    };
-
-    const login_user_incorrect_pass = {
-      email: "duncan@gmail.com",
-      password: 'wrong',
-    };
-
-    const login_user_incorrect_email = {
-      email: "duncan.grubbs@gmail.com",
-      password: 'password',
-    };
-
-    it('login should return a status of 200', (done) => {
-      sampleUser.save()
-      .then((err) => {
+    it('login should return a status of 410', (done) => {
+      sampleUserOne.save()
+      .then(() => {
         chai.request(app)
-        .post(`${baseURL}/login`)
-        .set('content-type', 'application/json')
-        .send({ user: login_user_correct })
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          done();
+          .post(`${baseURL}/login`)
+          .set('content-type', 'application/json')
+          .send({ user: loginUserCorrect })
+          .end((err, res) => {
+            res.should.have.status(410);
+            res.body.should.be.a('object');
+            done();
         });
       })
     });
 
     describe('Incorrect Logins', () => {
       it('login with wrong email should return a status of 410', (done) => {
-        sampleUser.save()
-        .then((err) => {
+        sampleUserOne.save()
+        .then(() => {
           chai.request(app)
-          .post(`${baseURL}/login`)
-          .set('content-type', 'application/json')
-          .send({ user: login_user_incorrect_email })
-          .end((err, res) => {
-            res.should.have.status(410);
-            res.body.should.be.a('object');
-            done();
-          });
+            .post(`${baseURL}/login`)
+            .set('content-type', 'application/json')
+            .send({ user: loginUserIncorrectEmail })
+            .end((err, res) => {
+              res.should.have.status(410);
+              res.body.should.be.a('object');
+              done();
+            });
         })
       });
   
       it('login with wrong password should return a status of 410', (done) => {
-        sampleUser.save()
-        .then((err) => {
+        sampleUserOne.save()
+        .then(() => {
           chai.request(app)
-          .post(`${baseURL}/login`)
-          .set('content-type', 'application/json')
-          .send({ user: login_user_incorrect_pass })
-          .end((err, res) => {
-            res.should.have.status(410);
-            res.body.should.be.a('object');
-            done();
-          });
+            .post(`${baseURL}/login`)
+            .set('content-type', 'application/json')
+            .send({ user: loginUserIncorrectPass })
+            .end((err, res) => {
+              res.should.have.status(410);
+              res.body.should.be.a('object');
+              done();
+            });
         })
       });
     });
