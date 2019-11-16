@@ -6,7 +6,7 @@
 
 const config = {
   development: 'mongodb://localhost/lets-go-db',
-  production: '', // some server somewhere
+  production:  '', // some server somewhere
 };
 
 module.exports = config;

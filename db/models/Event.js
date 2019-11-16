@@ -7,15 +7,15 @@
 import mongoose from 'mongoose';
 
 const Event = new mongoose.Schema({
-  title: { type: String, required: true },
+  title:       { type: String, required: true },
   description: { type: String, required: true },
-  location: { type: String, required: true },
-  owner: { type: String, required: true },
+  location:    { type: String, required: true },
+  owner:       { type: String, required: true },
 
-  capacity: { type: Number, required: true, default: 2 },
-  attendees: { type: Array, required: false, default: [] },
+  capacity:    { type: Number, required: true, default: 2 },
+  attendees:   { type: Array, required: false, default: [] },
 
-  date: { type: Number, required: true },
+  date:        { type: Number, required: true },
   dateCreated: { type: Number, default: Date.now() },
 }, { collection: 'events' });
 

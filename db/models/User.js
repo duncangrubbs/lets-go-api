@@ -10,18 +10,18 @@ import jwt from 'jsonwebtoken';
 import auth from '../../config/auth';
 
 const User = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  email: { type: String, required: true },
-  birthdate: { type: Number, required: true },
+  firstName:   { type: String, required: true },
+  lastName:    { type: String, required: true },
+  email:       { type: String, required: true },
+  birthdate:   { type: Number, required: true },
 
-  username: { type: String, required: false },
-  location: { type: String, required: false },
-  bio: { type: String, required: false },
-  pastEvents: { type: Array, required: false },
+  username:    { type: String, required: false },
+  location:    { type: String, required: false },
+  bio:         { type: String, required: false },
+  pastEvents:  { type: Array, required: false },
 
-  hash: { type: String, default: null, required: false },
-  salt: { type: String, default: null, required: false },
+  hash:        { type: String, default: null, required: false },
+  salt:        { type: String, default: null, required: false },
   dateCreated: { type: Number, default: Date.now() },
 }, { collection: 'users' });
 

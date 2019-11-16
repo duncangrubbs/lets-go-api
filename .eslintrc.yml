@@ -9,5 +9,6 @@ parserOptions:
   ecmaVersion: 2018
   sourceType: module
 rules: {
-  no-underscore-dangle: off
+  no-underscore-dangle: off,
+  key-spacing: off
 }
