@@ -8,6 +8,7 @@ import express from 'express';
 import Event from '../db/models/Event';
 
 import auth from '../config/auth';
+import { isInRadius } from '../helpers/LocationHelper';
 
 const router = express.Router();
 
@@ -71,7 +72,33 @@ function attend(req, res) {
  * @type GET
  */
 function nearby(req, res) {
-  res.status(200).json({ message: 'GET NEARBY EVENTS OK' });
+  const { params: { lat } } = req;
+  const { params: { long } } = req;
+  const { params: { radius } } = req;
+
+  Event
+    .find()
+    .sort({ date: -1 })
+    .exec((error, events) => {
+      if (error) { res.status(400).json({ error }); }
+      let eventsToReturn = [];
+      events.forEach((event) => {
+        const { location: { latitude } } = event;
+        const { location: { longitude } } = event;
+        const inRadius = isInRadius(
+          parseFloat(lat),
+          parseFloat(long),
+          parseInt(radius, 10),
+          parseFloat(latitude),
+          parseFloat(longitude),
+        );
+        if (inRadius) {
+          eventsToReturn.push(event);
+        }
+      });
+      eventsToReturn = eventsToReturn.slice(0, PER_PAGE_LIMIT);
+      res.status(200).json({ events: excludeBadEvents(eventsToReturn) });
+    });
 }
 
 /**
@@ -80,9 +107,11 @@ function nearby(req, res) {
  * @type GET
  */
 function publicEvents(req, res) {
+  const { params: { page } } = req;
   Event
     .find()
     .sort({ date: -1 })
+    .skip(page * PER_PAGE_LIMIT)
     .limit(PER_PAGE_LIMIT)
     .exec((error, events) => {
       if (error) { res.status(400).json({ error }); }
@@ -103,8 +132,8 @@ router.post('/create-event', auth.required, createEvent);
 
 router.put('/attend', auth.required, attend);
 
-router.get('/nearby/:radius', auth.optional, nearby);
-router.get('/public/:page', auth.required, publicEvents);
+router.get('/nearby/:lat/:long/:radius', auth.optional, nearby);
+router.get('/public/:page', auth.optional, publicEvents);
 router.get('/', auth.optional, main);
 
 module.exports = router;

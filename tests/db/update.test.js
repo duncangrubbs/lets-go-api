@@ -54,6 +54,6 @@ describe('Updating a user', () => {
   });
 
   it('update one user with id using model', (done) => {
-    assertHelper(User.findOneAndUpdate(user._id, { firstName: 'Duncan' }), done);
+    assertHelper(User.findOneAndUpdate({ _id: user._id }, { firstName: 'Duncan' }), done);
   });
 });

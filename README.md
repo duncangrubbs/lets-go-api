@@ -2,16 +2,16 @@
 ![Build Status](https://travis-ci.com/duncangrubbs/lets-go-api.svg?branch=master)
 ![Coverage Status](https://coveralls.io/repos/github/duncangrubbs/lets-go-api/badge.svg?branch=master)
 
-### An API for the **Let's Go** app.
+> An API for the **Let's Go** app.
 
-### What is Let's Go?
+## What is Let's Go?
 Let's Go is an application for finding new friends.
 Users can post activities that they are interested in doing, and other users can
 request to join.
 
 ---
 
-### Getting Started
+## Getting Started
 After cloning the repository, do the following.
 - Always run `mongod` in a seperate terminal to 
 start up your local db server first

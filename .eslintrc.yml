@@ -10,5 +10,6 @@ parserOptions:
   sourceType: module
 rules: {
   no-underscore-dangle: off,
-  key-spacing: off
+  key-spacing: off,
+  prefer-default-export: off
 }

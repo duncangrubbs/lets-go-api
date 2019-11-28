@@ -35,7 +35,10 @@ describe('Events Route Tests', () => {
 
   const event = {
     title: "Test event",
-    location: "San Anselmo",
+    location: {
+      latitude: "-10.344",
+      longitude: "20.45637"
+    },
     description: "Just a quick sesh",
     owner: "ashfasif783hfkjsdgn",
     date: 1563398240051
@@ -43,7 +46,10 @@ describe('Events Route Tests', () => {
 
   const sampleEvent = new Event({
     title: "Test event",
-    location: "San Anselmo",
+    location: {
+      latitude: "-10.344",
+      longitude: "20.45637"
+    },
     description: "Just a quick sesh",
     owner: "ashfasif783hfkjsdgn",
     date: 1563398240051
@@ -107,7 +113,7 @@ describe('Events Route Tests', () => {
   describe('GET /nearby', () => {
     it('should return a status of 200', (done) => {
       chai.request(app)
-        .get(`${baseURL}/nearby/3`)
+        .get(`${baseURL}/nearby/43.132615/-77.620166/2000`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
