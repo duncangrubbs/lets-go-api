@@ -46,7 +46,6 @@ function validateFieldsSignup(user) {
  * @type POST
  */
 function login(req, res) {
-  console.log('whhu'); // eslint-disable-line
   const { body: { user } } = req;
   User.findOne({ email: user.email }, (err, response) => {
     if (!response) { return res.status(410).json({ error: 'Incorrect Email' }); }

@@ -34,8 +34,12 @@ function excludeBadEvents(events) {
  * @type POST
  */
 function createEvent(req, res) {
+  const { payload: { id } } = req;
   const { body: { event: eventBlob } } = req;
+
+  eventBlob.owner = id;
   const event = new Event(eventBlob);
+
   event.save()
     .then(() => {
       res.status(201).json({ message: 'ADDED EVENT', event: eventBlob });
@@ -43,6 +47,26 @@ function createEvent(req, res) {
     .catch((error) => {
       res.status(400).json({ message: error });
     });
+}
+
+/**
+ * @description Deleted event from DB
+ * @access RESTRICTED
+ * @type DELETE
+ */
+function deleteEvent(req, res) {
+  const { body: { eventID } } = req;
+  const { payload: { id } } = req;
+
+  Event.deleteOne({
+    $and: [
+      { _id: eventID },
+      { owner: id },
+    ],
+  }, (_, info) => {
+    if (info.deletedCount !== 1) { return res.status(400).json({ error: info }); }
+    return res.status(204).json({ message: `Deleted event: ${eventID}` });
+  });
 }
 
 /**
@@ -131,6 +155,8 @@ function main(req, res) {
 router.post('/create-event', auth.required, createEvent);
 
 router.put('/attend', auth.required, attend);
+
+router.delete('/', auth.required, deleteEvent);
 
 router.get('/nearby/:lat/:long/:radius', auth.optional, nearby);
 router.get('/public/:page', auth.optional, publicEvents);

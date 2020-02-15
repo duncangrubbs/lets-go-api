@@ -122,6 +122,48 @@ describe('Events Route Tests', () => {
     });
   });
 
+  describe('DELETE /', () => {
+    it('should error when not owner of event', (done) => {
+      sampleUser.save()
+      .then(() => {
+        sampleEvent.save()
+        .then(() => {
+          chai.request(app)
+          .delete(`${baseURL}`)
+          .set('Authorization', `Token ${authToken}`)
+          .send({ eventID: sampleEventID })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.should.be.a('object');
+            done();
+          });
+        })
+      })
+    });
+  });
+
+  describe('DELETE /', () => {
+    it('should return 204 on success', (done) => {
+      sampleUser.save()
+      .then(() => {
+        event.owner = sampleUser._id;
+        const newEvt = Event(event);
+        newEvt.save()
+        .then(() => {
+          chai.request(app)
+          .delete(`${baseURL}`)
+          .set('Authorization', `Token ${authToken}`)
+          .send({ eventID: newEvt._id })
+          .end((err, res) => {
+            res.should.have.status(204);
+            res.body.should.be.a('object');
+            done();
+          });
+        })
+      })
+    });
+  });
+
   // public route
   describe('GET /public', () => {
     it('should return a status of 200', (done) => {

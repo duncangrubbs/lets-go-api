@@ -42,7 +42,7 @@ app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
     return res.status(401).send({
       success: false,
-      message: 'No token provided.',
+      message: 'Bad/no token provided.',
     });
   }
   return next();
