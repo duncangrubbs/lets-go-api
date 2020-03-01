@@ -164,6 +164,49 @@ describe('Events Route Tests', () => {
     });
   });
 
+  describe('ATTENDEES /', () => {
+    it('should return 200 on success', (done) => {
+      sampleUser.save()
+      .then(() => {
+        event.owner = sampleUser._id;
+        const newEvt = Event(event);
+        newEvt.save()
+        .then(() => {
+          chai.request(app)
+          .get(`${baseURL}/attendees/${newEvt._id}`)
+          .set('Authorization', `Token ${authToken}`)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            done();
+          });
+        })
+      })
+    });
+  });
+
+  describe('ATTENDEES /', () => {
+    it('should return 409 on failure', (done) => {
+      sampleUser.save()
+      .then(() => {
+        event.owner = sampleUser._id;
+        const newEvt = Event(event);
+        newEvt.save()
+        .then(() => {
+          chai.request(app)
+          .get(`${baseURL}/attendees/${newEvt._id}`)
+          .set('Authorization', 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImR1bmNhbkBnbWFpbC5jb20iLCJpZCI6IjVlNWJmNTA5NTc0OGI4Zjg0ZDI2NzFlNSIsImV4cCI6MTU4ODI2NTIwOSwiaWF0IjoxNTgzMDg0ODA5fQ.dnzmlKEnkit99jjOq0de0GVsylrKeE5FrvvHeE6mUwg')
+          .end((err, res) => {
+            res.should.have.status(409);
+            res.should.have.a.property('error');
+            res.body.should.be.a('object');
+            done();
+          });
+        })
+      })
+    });
+  });
+
   // public route
   describe('GET /public', () => {
     it('should return a status of 200', (done) => {

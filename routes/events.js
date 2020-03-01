@@ -90,6 +90,29 @@ function attend(req, res) {
 }
 
 /**
+ * @description Returns list of attendees of
+ * a given event
+ * @access RESTRICTED
+ * @type GET
+ */
+function attendees(req, res) {
+  const { params: { id: eid } } = req;
+  const { payload: { id: uid } } = req;
+
+  Event
+    .findOne({ _id: eid })
+    .exec((error, event) => {
+      const { owner } = event;
+      const { attendees: attns } = event;
+
+      if (error) { return res.status(400).json({ error }); }
+      if (owner !== uid) { return res.status(409).json({ error: 'Not Authorized User' }); }
+
+      return res.status(200).json({ attendees: attns });
+    });
+}
+
+/**
  * @description Returns list of events posted within
  * the given radius
  * @access PUBLIC
@@ -127,7 +150,7 @@ function nearby(req, res) {
 
 /**
  * @description Returns list of public events for a given page
- * @access Restricted
+ * @access RESTRICTED
  * @type GET
  */
 function publicEvents(req, res) {
@@ -158,8 +181,10 @@ router.put('/attend', auth.required, attend);
 
 router.delete('/', auth.required, deleteEvent);
 
+router.get('/attendees/:id', auth.required, attendees);
 router.get('/nearby/:lat/:long/:radius', auth.optional, nearby);
 router.get('/public/:page', auth.optional, publicEvents);
+
 router.get('/', auth.optional, main);
 
 module.exports = router;
