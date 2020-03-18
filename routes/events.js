@@ -64,7 +64,7 @@ function deleteEvent(req, res) {
       { owner: id },
     ],
   }, (_, info) => {
-    if (info.deletedCount !== 1) { return res.status(400).json({ error: info }); }
+    if (info.deletedCount !== 1) { return res.status(400).json({ message: info }); }
     return res.status(204).json({ message: `Deleted event: ${eventID}` });
   });
 }
@@ -105,10 +105,10 @@ function attendees(req, res) {
       const { owner } = event;
       const { attendees: attns } = event;
 
-      if (error) { return res.status(400).json({ error }); }
-      if (owner !== uid) { return res.status(409).json({ error: 'Not Authorized User' }); }
+      if (error) { return res.status(400).json({ message: error }); }
+      if (owner !== uid) { return res.status(409).json({ message: 'Not Authorized User' }); }
 
-      return res.status(200).json({ attendees: attns });
+      return res.status(200).json({ data: attns });
     });
 }
 
@@ -144,7 +144,7 @@ function nearby(req, res) {
         }
       });
       eventsToReturn = eventsToReturn.slice(0, PER_PAGE_LIMIT);
-      res.status(200).json({ events: excludeBadEvents(eventsToReturn) });
+      res.status(200).json({ data: excludeBadEvents(eventsToReturn) });
     });
 }
 
@@ -162,7 +162,7 @@ function publicEvents(req, res) {
     .limit(PER_PAGE_LIMIT)
     .exec((error, events) => {
       if (error) { res.status(400).json({ error }); }
-      res.status(200).json({ events: excludeBadEvents(events) });
+      res.status(200).json({ data: excludeBadEvents(events) });
     });
 }
 

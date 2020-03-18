@@ -47,12 +47,13 @@ function validateFieldsSignup(user) {
  */
 function login(req, res) {
   const { body: { user } } = req;
+
   User.findOne({ email: user.email }, (err, response) => {
-    if (!response) { return res.status(410).json({ error: 'Incorrect Email' }); }
+    if (!response) { return res.status(410).json({ message: 'Incorrect Email' }); }
     if (response.validatePassword(user.password)) {
       return res.status(200).json({ user: response.toAuthJSON() });
     }
-    return res.status(400).json({ error: 'Incorrect Password' });
+    return res.status(400).json({ message: 'Incorrect Password' });
   });
 }
 
@@ -65,11 +66,11 @@ function signup(req, res) {
   const { body: { user } } = req;
 
   if (!validateFieldsSignup(user)) {
-    return res.status(422).json({ error: 'Invalid Fields' });
+    return res.status(422).json({ message: 'Invalid Fields' });
   }
 
   User.findOne({ email: user.email }, (err, response) => {
-    if (response) { return res.status(409).json({ error: 'User Already Exists' }); }
+    if (response) { return res.status(409).json({ message: 'User Already Exists' }); }
     const finalUser = new User(user);
     // Hash and salt the password
     finalUser.setPassword(user.password);
@@ -101,7 +102,7 @@ function updateFields(req, res) {
     { _id: id },
     { $set: updatedInfo },
     (error, data) => {
-      if (error) { return res.status(400).json({ error }); }
+      if (error) { return res.status(400).json({ message: error }); }
       return res.status(200).json({ message: data });
     },
   );
@@ -114,7 +115,7 @@ function updateFields(req, res) {
  */
 function main(req, res) {
   const { payload } = req;
-  console.log('something'); // eslint-disable-line
+
   res.status(200).json({ message: 'AUTH OK', payload });
 }
 

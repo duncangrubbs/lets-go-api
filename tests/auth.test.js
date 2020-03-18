@@ -34,6 +34,8 @@ describe('Auth Route Tests', () => {
         .get(baseURL)
         .end((err, res) => {
           res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('message');
           done();
         });
     });
@@ -47,6 +49,7 @@ describe('Auth Route Tests', () => {
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
+            res.body.should.have.property('message');
             done();
           });
       })
@@ -62,6 +65,7 @@ describe('Auth Route Tests', () => {
         .end((err, res) => {
           res.should.have.status(201);
           res.body.should.be.a('object');
+          res.body.should.have.property('user');
           done();
         });
     });
@@ -74,10 +78,12 @@ describe('Auth Route Tests', () => {
         .end((err, res) => {
           res.should.have.status(422);
           res.body.should.be.a('object');
+          res.body.should.have.property('message');
           done();
         });
     });
   });
+
   // TODO: fix this test
   describe('login', () => {
     it('login should return a status of 410', (done) => {
@@ -90,6 +96,7 @@ describe('Auth Route Tests', () => {
           .end((err, res) => {
             res.should.have.status(410);
             res.body.should.be.a('object');
+            res.body.should.have.property('message');
             done();
         });
       })
@@ -106,6 +113,7 @@ describe('Auth Route Tests', () => {
             .end((err, res) => {
               res.should.have.status(410);
               res.body.should.be.a('object');
+              res.body.should.have.property('message');
               done();
             });
         })
@@ -121,6 +129,7 @@ describe('Auth Route Tests', () => {
             .end((err, res) => {
               res.should.have.status(410);
               res.body.should.be.a('object');
+              res.body.should.have.property('message');
               done();
             });
         })
@@ -143,6 +152,7 @@ describe('Auth Route Tests', () => {
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
+            res.body.should.have.property('message');
             done();
           })
       })

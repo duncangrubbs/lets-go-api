@@ -70,6 +70,7 @@ describe('Events Route Tests', () => {
         .end((err, res) => {
           res.should.have.status(201);
           res.body.should.be.a('object');
+          res.body.should.have.property('message');
           done();
         });
       })
@@ -90,6 +91,7 @@ describe('Events Route Tests', () => {
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
+            res.body.should.have.property('message');
             done();
           });
         })
@@ -105,6 +107,7 @@ describe('Events Route Tests', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
+          res.body.should.have.property('data');
           done();
         });
     });
@@ -124,6 +127,7 @@ describe('Events Route Tests', () => {
           .end((err, res) => {
             res.should.have.status(400);
             res.body.should.be.a('object');
+            res.body.should.have.property('message');
             done();
           });
         })
@@ -168,6 +172,7 @@ describe('Events Route Tests', () => {
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
+            res.body.should.have.property('data');
             done();
           });
         })
@@ -190,6 +195,7 @@ describe('Events Route Tests', () => {
             res.should.have.status(409);
             res.should.have.a.property('error');
             res.body.should.be.a('object');
+            res.body.should.have.property('message');
             done();
           });
         })
@@ -208,6 +214,7 @@ describe('Events Route Tests', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
+          res.body.should.have.property('data');
           done();
         });
       })
