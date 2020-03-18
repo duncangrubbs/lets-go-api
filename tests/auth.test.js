@@ -49,7 +49,7 @@ describe('Auth Route Tests', () => {
             res.body.should.be.a('object');
             done();
           });
-      });
+      })
     });
   });
 
@@ -125,6 +125,27 @@ describe('Auth Route Tests', () => {
             });
         })
       });
+    });
+  });
+
+  describe('Edit Profile Fields', (done) => {
+    it('should succefully update fields', (done) => {
+      sampleUserOne.save()
+      .then(() => {
+        chai.request(app)
+          .put(`${baseURL}/update`)
+          .set('content-type', 'application/json')
+          .set('Authorization', `Token ${authTokenUserOne}`)
+          .send({
+            fields: ['email', 'firstName'],
+            values: ['new email', 'new name']
+          })
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            done();
+          })
+      })
     });
   });
 });

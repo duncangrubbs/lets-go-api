@@ -69,14 +69,42 @@ function signup(req, res) {
   }
 
   User.findOne({ email: user.email }, (err, response) => {
-    if (response) { res.status(409).json({ error: 'User Already Exists' }); }
+    if (response) { return res.status(409).json({ error: 'User Already Exists' }); }
     const finalUser = new User(user);
     // Hash and salt the password
     finalUser.setPassword(user.password);
 
-    finalUser.save()
+    return finalUser.save()
       .then(() => res.status(201).json({ user: finalUser.toAuthJSON() }));
   });
+}
+
+
+/**
+ * @description Updates a given field
+ * of a users data
+ * @access RESTRICTED
+ * @type PUT
+ */
+function updateFields(req, res) {
+  const { body: { fields } } = req;
+  const { body: { values } } = req;
+  const { payload: { id } } = req;
+
+  const updatedInfo = {};
+
+  for (let i = 0; i < fields.length; i += 1) {
+    updatedInfo[fields[i]] = values[i];
+  }
+
+  User.updateOne(
+    { _id: id },
+    { $set: updatedInfo },
+    (error, data) => {
+      if (error) { return res.status(400).json({ error }); }
+      return res.status(200).json({ message: data });
+    },
+  );
 }
 
 /**
@@ -86,11 +114,14 @@ function signup(req, res) {
  */
 function main(req, res) {
   const { payload } = req;
+  console.log('something'); // eslint-disable-line
   res.status(200).json({ message: 'AUTH OK', payload });
 }
 
 router.post('/login', auth.optional, login);
 router.post('/signup', auth.optional, signup);
+
+router.put('/update', auth.required, updateFields);
 
 router.get('/', auth.required, main);
 

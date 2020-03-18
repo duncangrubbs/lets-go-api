@@ -10,15 +10,40 @@ import chaiHttp from 'chai-http';
 import app from '../app';
 
 import config from '../config/config';
-
-import User from '../db/models/User';
 import Event from '../db/models/Event';
+
+// import all mocks
+import {
+  eventToSave,
+  sampleEventNoOwner,
+  sampleEventNoOwnerID,
+  sampleEventValidOwner,
+  sampleEventNearbyOne,
+  sampleEventNearbyTwo,
+  sampleEventNearbyOneID,
+  sampleEventNearbyTwoID,
+  sampleEventFar,
+  sampleEventFarID,
+} from './mocks/events';
+
+import {
+  sampleUserOne,
+  authTokenUserOne,
+  arbitraryToken,
+} from './mocks/users';
 
 // Configure chai
 chai.use(chaiHttp);
 chai.should();
 
 const baseURL = `/api/${config.API_VERSION}/events`;
+
+/*
+ All of the tests for the /events/ API
+ endpoint. This includes comprehensive
+ testing for each endpoint, including a
+ general route ensure.
+*/
 
 describe('Events Route Tests', () => {
   describe('Route Ensure', () => {
@@ -33,52 +58,15 @@ describe('Events Route Tests', () => {
     });
   });
 
-  const event = {
-    title: "Test event",
-    location: {
-      latitude: "-10.344",
-      longitude: "20.45637"
-    },
-    description: "Just a quick sesh",
-    owner: "ashfasif783hfkjsdgn",
-    date: 1563398240051
-  };
-
-  const sampleEvent = new Event({
-    title: "Test event",
-    location: {
-      latitude: "-10.344",
-      longitude: "20.45637"
-    },
-    description: "Just a quick sesh",
-    owner: "ashfasif783hfkjsdgn",
-    date: 1563398240051
-  });
-
-  const sampleEventID = sampleEvent._id;
-
-  const sampleUser = new User({
-    firstName: 'Duncan',
-    lastName: 'Grubbs',
-    password: 'password',
-    birthdate: 938070000000,
-    location: 'Rochester, NY',
-    bio: 'Love the Outdoors!',
-    email: 'duncan@gmail.com',
-  });
-  sampleUser.setPassword('password');
-
-  const authToken = sampleUser.generateJWT();
-
-  // create-event route
+  // create-event route tests
   describe('POST /create-event', () => {
     it('should return a status of 201', (done) => {
-      sampleUser.save()
+      sampleUserOne.save()
       .then(() => {
         chai.request(app)
         .post(`${baseURL}/create-event`)
-        .set('Authorization', `Token ${authToken}`)
-        .send({ event })
+        .set('Authorization', `Token ${authTokenUserOne}`)
+        .send({ event: eventToSave })
         .end((err, res) => {
           res.should.have.status(201);
           res.body.should.be.a('object');
@@ -88,17 +76,17 @@ describe('Events Route Tests', () => {
     });
   });
 
-  // create-event route
+  // attend route tests
   describe('PUT /attend', () => {
     it('should return a status of 200', (done) => {
-      sampleUser.save()
+      sampleUserOne.save()
       .then(() => {
-        sampleEvent.save()
+        sampleEventNoOwner.save()
         .then(() => {
           chai.request(app)
           .put(`${baseURL}/attend`)
-          .set('Authorization', `Token ${authToken}`)
-          .send({ eventID: sampleEventID })
+          .set('Authorization', `Token ${authTokenUserOne}`)
+          .send({ eventID: sampleEventNoOwnerID })
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
@@ -109,7 +97,7 @@ describe('Events Route Tests', () => {
     });
   });
 
-  // nearby route
+  // nearby route tests
   describe('GET /nearby', () => {
     it('should return a status of 200', (done) => {
       chai.request(app)
@@ -122,16 +110,17 @@ describe('Events Route Tests', () => {
     });
   });
 
+  // delete route tests
   describe('DELETE /', () => {
     it('should error when not owner of event', (done) => {
-      sampleUser.save()
+      sampleUserOne.save()
       .then(() => {
-        sampleEvent.save()
+        sampleEventNoOwner.save()
         .then(() => {
           chai.request(app)
           .delete(`${baseURL}`)
-          .set('Authorization', `Token ${authToken}`)
-          .send({ eventID: sampleEventID })
+          .set('Authorization', `Token ${authTokenUserOne}`)
+          .send({ eventID: sampleEventNoOwnerID })
           .end((err, res) => {
             res.should.have.status(400);
             res.body.should.be.a('object');
@@ -144,15 +133,15 @@ describe('Events Route Tests', () => {
 
   describe('DELETE /', () => {
     it('should return 204 on success', (done) => {
-      sampleUser.save()
+      sampleUserOne.save()
       .then(() => {
-        event.owner = sampleUser._id;
-        const newEvt = Event(event);
+        eventToSave.owner = sampleUserOne._id;
+        const newEvt = Event(eventToSave);
         newEvt.save()
         .then(() => {
           chai.request(app)
           .delete(`${baseURL}`)
-          .set('Authorization', `Token ${authToken}`)
+          .set('Authorization', `Token ${authTokenUserOne}`)
           .send({ eventID: newEvt._id })
           .end((err, res) => {
             res.should.have.status(204);
@@ -164,17 +153,18 @@ describe('Events Route Tests', () => {
     });
   });
 
+  // get attendees route tests
   describe('ATTENDEES /', () => {
     it('should return 200 on success', (done) => {
-      sampleUser.save()
+      sampleUserOne.save()
       .then(() => {
-        event.owner = sampleUser._id;
-        const newEvt = Event(event);
+        eventToSave.owner = sampleUserOne._id;
+        const newEvt = Event(eventToSave);
         newEvt.save()
         .then(() => {
           chai.request(app)
           .get(`${baseURL}/attendees/${newEvt._id}`)
-          .set('Authorization', `Token ${authToken}`)
+          .set('Authorization', `Token ${authTokenUserOne}`)
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
@@ -187,15 +177,15 @@ describe('Events Route Tests', () => {
 
   describe('ATTENDEES /', () => {
     it('should return 409 on failure', (done) => {
-      sampleUser.save()
+      sampleUserOne.save()
       .then(() => {
-        event.owner = sampleUser._id;
-        const newEvt = Event(event);
+        eventToSave.owner = sampleUserOne._id;
+        const newEvt = Event(eventToSave);
         newEvt.save()
         .then(() => {
           chai.request(app)
           .get(`${baseURL}/attendees/${newEvt._id}`)
-          .set('Authorization', 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImR1bmNhbkBnbWFpbC5jb20iLCJpZCI6IjVlNWJmNTA5NTc0OGI4Zjg0ZDI2NzFlNSIsImV4cCI6MTU4ODI2NTIwOSwiaWF0IjoxNTgzMDg0ODA5fQ.dnzmlKEnkit99jjOq0de0GVsylrKeE5FrvvHeE6mUwg')
+          .set('Authorization', `Token ${arbitraryToken}`)
           .end((err, res) => {
             res.should.have.status(409);
             res.should.have.a.property('error');
@@ -207,14 +197,14 @@ describe('Events Route Tests', () => {
     });
   });
 
-  // public route
+  // public route tests
   describe('GET /public', () => {
     it('should return a status of 200', (done) => {
-      sampleUser.save()
+      sampleUserOne.save()
       .then(() => {
         chai.request(app)
         .get(`${baseURL}/public/3`)
-        .set('Authorization', `Token ${authToken}`)
+        .set('Authorization', `Token ${authTokenUserOne}`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');

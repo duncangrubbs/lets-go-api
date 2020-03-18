@@ -55,7 +55,10 @@ const loginUserIncorrectEmail = {
   password: 'password',
 };
 
+const arbitraryToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImR1bmNhbkBnbWFpbC5jb20iLCJpZCI6IjVlNWJmNTA5NTc0OGI4Zjg0ZDI2NzFlNSIsImV4cCI6MTU4ODI2NTIwOSwiaWF0IjoxNTgzMDg0ODA5fQ.dnzmlKEnkit99jjOq0de0GVsylrKeE5FrvvHeE6mUwg';
+
 export {
+  arbitraryToken,
   sampleUserOne,
   sampleUserTwo,
   authTokenUserOne,
