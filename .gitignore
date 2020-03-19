@@ -6,7 +6,6 @@ yarn-error.log
 /*/lint-report.html
 
 .env
-.circleci
 
 .nyc_output
 /coverage
