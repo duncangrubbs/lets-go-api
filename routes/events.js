@@ -89,6 +89,33 @@ function attend(req, res) {
     });
 }
 
+function edit(req, res) {
+  const { payload: { id } } = req;
+  const { body: { eventID: _id } } = req;
+  const { body: { fields } } = req;
+  const { body: { values } } = req;
+
+  const updatedInfo = {};
+
+  for (let i = 0; i < fields.length; i += 1) {
+    updatedInfo[fields[i]] = values[i];
+  }
+
+  Event.findOne({ _id }, (error, event) => {
+    if (error) { return res.status(400).json({ message: error }); }
+    if (event.owner === id) {
+      Event.updateOne({ _id }, {
+        $set: updatedInfo,
+      }, (err, data) => {
+        if (err) { return res.status(400).json({ message: err }); }
+        return res.status(200).json({ data });
+      });
+    } else {
+      return res.status(400).json({ message: 'Not Event Owner' });
+    }
+  });
+}
+
 /**
  * @description Returns list of attendees of
  * a given event
@@ -178,6 +205,7 @@ function main(req, res) {
 router.post('/create-event', auth.required, createEvent);
 
 router.put('/attend', auth.required, attend);
+router.put('/edit', auth.required, edit);
 
 router.delete('/', auth.required, deleteEvent);
 

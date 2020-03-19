@@ -99,6 +99,34 @@ describe('Events Route Tests', () => {
     });
   });
 
+  // edit route tests
+  describe('PUT /edit', () => {
+    it('should return a status of 200', (done) => {
+      sampleUserOne.save()
+      .then(() => {
+        eventToSave.owner = sampleUserOne._id;
+        const newEvt = new Event(eventToSave);
+        newEvt.save()
+        .then(() => {
+          chai.request(app)
+          .put(`${baseURL}/edit`)
+          .set('Authorization', `Token ${authTokenUserOne}`)
+          .send({
+            eventID: newEvt._id,
+            fields: ['title', 'description'],
+            values: ['new title', 'new desc']
+          })
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            res.body.should.have.property('data');
+            done();
+          });
+        })
+      });
+    });
+  });
+
   // nearby route tests
   describe('GET /nearby', () => {
     it('should return a status of 200', (done) => {
