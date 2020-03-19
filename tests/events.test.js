@@ -74,6 +74,10 @@ describe('Events Route Tests', () => {
           done();
         });
       })
+      .catch((error) => {
+        assert.isNotOk(error,'Promise error');
+        done();
+      });
     });
   });
 

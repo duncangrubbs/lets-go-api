@@ -133,6 +133,10 @@ describe('Auth Route Tests', () => {
               done();
             });
         })
+        .catch((error) => {
+          assert.isNotOk(error,'Promise error');
+          done();
+        });
       });
     });
   });
@@ -156,6 +160,10 @@ describe('Auth Route Tests', () => {
             done();
           })
       })
+      .catch((error) => {
+        assert.isNotOk(error,'Promise error');
+        done();
+      });
     });
   });
 });
