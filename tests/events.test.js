@@ -72,12 +72,13 @@ describe('Events Route Tests', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('message');
           done();
+        })
+        .catch((error) => {
+          assert.isNotOk(error,'Promise error');
+          done();
         });
       })
-      .catch((error) => {
-        assert.isNotOk(error,'Promise error');
-        done();
-      });
+      
     });
   });
 
