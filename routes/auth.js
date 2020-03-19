@@ -10,6 +10,8 @@ import express from 'express';
 import User from '../db/models/User';
 import auth from '../config/auth';
 
+import { validateUserFAV } from '../helpers/ValidationHelper';
+
 const router = express.Router();
 // 18 years = 569203200000 ms
 const EIGHTEEN_YEARS = 569203200000;
@@ -92,6 +94,10 @@ function updateFields(req, res) {
   const { body: { values } } = req;
   const { payload: { id } } = req;
 
+  if (!validateUserFAV(fields, values)) {
+    return res.status(400).json({ message: 'Invalid Fields/Values' });
+  }
+
   const updatedInfo = {};
 
   for (let i = 0; i < fields.length; i += 1) {
@@ -103,7 +109,7 @@ function updateFields(req, res) {
     { $set: updatedInfo },
     (error, data) => {
       if (error) { return res.status(400).json({ message: error }); }
-      return res.status(200).json({ message: data });
+      return res.status(200).json({ data });
     },
   );
 }

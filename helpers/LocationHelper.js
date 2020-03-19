@@ -1,3 +1,8 @@
+/**
+ * @file LocationHelper.js
+ * @description Math utility to calculate distances between events.
+ */
+
 /* eslint-disable import/prefer-default-export */
 /**
  * Tests whether an event is within a given radius of

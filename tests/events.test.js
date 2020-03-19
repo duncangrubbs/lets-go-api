@@ -52,7 +52,6 @@ describe('Events Route Tests', () => {
         .get(baseURL)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.be.a('object');
           done();
         });
     });
@@ -69,14 +68,10 @@ describe('Events Route Tests', () => {
         .send({ event: eventToSave })
         .end((err, res) => {
           res.should.have.status(201);
-          res.body.should.be.a('object');
           res.body.should.have.property('message');
+          res.body.message.should.be.a('string');
           done();
         })
-        .catch((error) => {
-          assert.isNotOk(error,'Promise error');
-          done();
-        });
       })
       
     });
@@ -95,8 +90,8 @@ describe('Events Route Tests', () => {
           .send({ eventID: sampleEventNoOwnerID })
           .end((err, res) => {
             res.should.have.status(200);
-            res.body.should.be.a('object');
             res.body.should.have.property('message');
+            res.body.message.should.be.a('string');
             done();
           });
         })
@@ -123,8 +118,33 @@ describe('Events Route Tests', () => {
           })
           .end((err, res) => {
             res.should.have.status(200);
-            res.body.should.be.a('object');
             res.body.should.have.property('data');
+            res.body.data.should.be.a('object');
+            done();
+          });
+        })
+      });
+    });
+
+    it('should fail with bad fields/values', (done) => {
+      sampleUserOne.save()
+      .then(() => {
+        eventToSave.owner = sampleUserOne._id;
+        const newEvt = new Event(eventToSave);
+        newEvt.save()
+        .then(() => {
+          chai.request(app)
+          .put(`${baseURL}/edit`)
+          .set('Authorization', `Token ${authTokenUserOne}`)
+          .send({
+            eventID: newEvt._id,
+            fields: ['wack'],
+            values: ['new title', 'new desc']
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.should.have.property('message');
+            res.body.message.should.be.a('string');
             done();
           });
         })
@@ -139,8 +159,8 @@ describe('Events Route Tests', () => {
         .get(`${baseURL}/nearby/43.132615/-77.620166/2000`)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.be.a('object');
           res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
           done();
         });
     });
@@ -159,16 +179,14 @@ describe('Events Route Tests', () => {
           .send({ eventID: sampleEventNoOwnerID })
           .end((err, res) => {
             res.should.have.status(400);
-            res.body.should.be.a('object');
             res.body.should.have.property('message');
+            res.body.message.should.be.a('string');
             done();
           });
         })
       })
     });
-  });
 
-  describe('DELETE /', () => {
     it('should return 204 on success', (done) => {
       sampleUserOne.save()
       .then(() => {
@@ -181,8 +199,9 @@ describe('Events Route Tests', () => {
           .set('Authorization', `Token ${authTokenUserOne}`)
           .send({ eventID: newEvt._id })
           .end((err, res) => {
-            res.should.have.status(204);
-            res.body.should.be.a('object');
+            res.should.have.status(200);
+            res.body.should.have.property('message');
+            res.body.message.should.be.a('string');
             done();
           });
         })
@@ -204,16 +223,14 @@ describe('Events Route Tests', () => {
           .set('Authorization', `Token ${authTokenUserOne}`)
           .end((err, res) => {
             res.should.have.status(200);
-            res.body.should.be.a('object');
             res.body.should.have.property('data');
+            res.body.data.should.be.a('array');
             done();
           });
         })
       })
     });
-  });
 
-  describe('ATTENDEES /', () => {
     it('should return 409 on failure', (done) => {
       sampleUserOne.save()
       .then(() => {
@@ -226,9 +243,8 @@ describe('Events Route Tests', () => {
           .set('Authorization', `Token ${arbitraryToken}`)
           .end((err, res) => {
             res.should.have.status(409);
-            res.should.have.a.property('error');
-            res.body.should.be.a('object');
             res.body.should.have.property('message');
+            res.body.message.should.be.a('string');
             done();
           });
         })
@@ -238,7 +254,7 @@ describe('Events Route Tests', () => {
 
   // public route tests
   describe('GET /public', () => {
-    it('should return a status of 200', (done) => {
+    it('should return a status of 200 with token', (done) => {
       sampleUserOne.save()
       .then(() => {
         chai.request(app)
@@ -246,8 +262,22 @@ describe('Events Route Tests', () => {
         .set('Authorization', `Token ${authTokenUserOne}`)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.be.a('object');
           res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          done();
+        });
+      })
+    });
+
+    it('should return a status of 200 without token', (done) => {
+      sampleUserOne.save()
+      .then(() => {
+        chai.request(app)
+        .get(`${baseURL}/public/3`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
           done();
         });
       })

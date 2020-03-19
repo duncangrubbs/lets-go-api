@@ -19,6 +19,7 @@ import {
   loginUserCorrect,
   loginUserIncorrectPass,
   loginUserIncorrectEmail,
+  arbitraryToken,
 } from './mocks/users';
 
 // Configure chai
@@ -34,8 +35,8 @@ describe('Auth Route Tests', () => {
         .get(baseURL)
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.should.be.a('object');
           res.body.should.have.property('message');
+          res.body.message.should.be.a('string');
           done();
         });
     });
@@ -48,8 +49,8 @@ describe('Auth Route Tests', () => {
           .set('Authorization', `Token ${authTokenUserOne}`)
           .end((err, res) => {
             res.should.have.status(200);
-            res.body.should.be.a('object');
             res.body.should.have.property('message');
+            res.body.message.should.be.a('string');
             done();
           });
       })
@@ -64,8 +65,8 @@ describe('Auth Route Tests', () => {
         .set('accept', 'json')
         .end((err, res) => {
           res.should.have.status(201);
-          res.body.should.be.a('object');
           res.body.should.have.property('user');
+          res.body.user.should.be.a('object');
           done();
         });
     });
@@ -77,8 +78,8 @@ describe('Auth Route Tests', () => {
         .set('accept', 'json')
         .end((err, res) => {
           res.should.have.status(422);
-          res.body.should.be.a('object');
           res.body.should.have.property('message');
+          res.body.message.should.be.a('string');
           done();
         });
     });
@@ -95,8 +96,8 @@ describe('Auth Route Tests', () => {
           .send({ user: loginUserCorrect })
           .end((err, res) => {
             res.should.have.status(410);
-            res.body.should.be.a('object');
             res.body.should.have.property('message');
+            res.body.message.should.be.a('string');
             done();
         });
       })
@@ -112,8 +113,8 @@ describe('Auth Route Tests', () => {
             .send({ user: loginUserIncorrectEmail })
             .end((err, res) => {
               res.should.have.status(410);
-              res.body.should.be.a('object');
               res.body.should.have.property('message');
+              res.body.message.should.be.a('string');
               done();
             });
         })
@@ -128,15 +129,11 @@ describe('Auth Route Tests', () => {
             .send({ user: loginUserIncorrectPass })
             .end((err, res) => {
               res.should.have.status(410);
-              res.body.should.be.a('object');
               res.body.should.have.property('message');
+              res.body.message.should.be.a('string');
               done();
             });
         })
-        .catch((error) => {
-          assert.isNotOk(error,'Promise error');
-          done();
-        });
       });
     });
   });
@@ -155,15 +152,28 @@ describe('Auth Route Tests', () => {
           })
           .end((err, res) => {
             res.should.have.status(200);
-            res.body.should.be.a('object');
-            res.body.should.have.property('message');
+            res.body.should.have.property('data');
+            res.body.data.should.be.a('object');
             done();
           })
       })
-      .catch((error) => {
-        assert.isNotOk(error,'Promise error');
-        done();
-      });
+    });
+
+    it('should fail with bad fields/values', (done) => {
+      chai.request(app)
+        .put(`${baseURL}/update`)
+        .set('content-type', 'application/json')
+        .set('Authorization', `Token ${arbitraryToken}`)
+        .send({
+          fields: ['bad field', 'firstName'],
+          values: ['new email']
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.have.property('message');
+          res.body.message.should.be.a('string');
+          done();
+        })
     });
   });
 });

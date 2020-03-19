@@ -9,6 +9,7 @@ import Event from '../db/models/Event';
 
 import auth from '../config/auth';
 import { isInRadius } from '../helpers/LocationHelper';
+import { validateEventFAV } from '../helpers/ValidationHelper';
 
 const router = express.Router();
 
@@ -64,8 +65,8 @@ function deleteEvent(req, res) {
       { owner: id },
     ],
   }, (_, info) => {
-    if (info.deletedCount !== 1) { return res.status(400).json({ message: info }); }
-    return res.status(204).json({ message: `Deleted event: ${eventID}` });
+    if (info.deletedCount === 0) { return res.status(400).json({ message: 'Not Deleted' }); }
+    return res.status(200).json({ message: `Deleted Event ${eventID}` });
   });
 }
 
@@ -94,6 +95,10 @@ function edit(req, res) {
   const { body: { eventID: _id } } = req;
   const { body: { fields } } = req;
   const { body: { values } } = req;
+
+  if (!validateEventFAV(fields, values)) {
+    return res.status(400).json({ message: 'Invalid Fields/Values' });
+  }
 
   const updatedInfo = {};
 
