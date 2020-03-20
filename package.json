@@ -6,7 +6,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon --exec babel-node app.js",
-    "test": "mocha --require babel-register --recursive tests --exit",
+    "test": "mocha --require babel-register --recursive tests --exit --unhandled-rejections=none",
     "coverage": "nyc report",
     "lint": "eslint . -o ./tests/lint-report.html -f html"
   },
