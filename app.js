@@ -27,14 +27,19 @@ if (!isProduction) {
   app.use(logger('tiny'));
 }
 
-// Configure Mongoose
+// Connect to the local, or cloud, database
 mongoDB.connect();
 
 // Middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Routes, split by topic
+/*
+ Routes are split by category, /auth handles
+ all user related requests, /events handles
+ almost everything else, all event related
+ requests.
+*/
 app.use(`/api/${config.API_VERSION}/auth`, auth);
 app.use(`/api/${config.API_VERSION}/events`, events);
 

@@ -71,7 +71,7 @@ function signup(req, res) {
     return res.status(422).json({ message: 'Invalid Fields' });
   }
 
-  User.findOne({ email: user.email }, (err, response) => {
+  return User.findOne({ email: user.email }, (err, response) => {
     if (response) { return res.status(409).json({ message: 'User Already Exists' }); }
     const finalUser = new User(user);
     // Hash and salt the password
@@ -104,7 +104,7 @@ function updateFields(req, res) {
     updatedInfo[fields[i]] = values[i];
   }
 
-  User.updateOne(
+  return User.updateOne(
     { _id: id },
     { $set: updatedInfo },
   )

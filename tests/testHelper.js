@@ -6,18 +6,18 @@
 
 import mongoDB from '../mongoDB';
 
-// clear DB before running these test
-before(() => { // eslint-disable-line
+before(() => {
   mongoDB.connect();
 });
 
-beforeEach((done) => { // eslint-disable-line
+beforeEach((done) => {
   mongoDB.mongoose.connection.collections.users.drop(() => {
-    // this function runs after the drop is completed
-    done(); // go ahead everything is done now.
+    mongoDB.mongoose.connection.collections.events.drop(() => {
+      done();
+    });
   });
 });
 
-after((done) => { // eslint-disable-line
+after((done) => {
   mongoDB.disconnect(done);
 });

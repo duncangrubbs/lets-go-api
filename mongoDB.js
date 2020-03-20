@@ -23,7 +23,7 @@ module.exports = {
         console.warn('Error: ', error); // eslint-disable-line
       });
   },
-  disconnect: (done) => { // just used for testing
+  disconnect: (done) => {
     mongoose.disconnect(done);
   },
 };

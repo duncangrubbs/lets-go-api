@@ -7,9 +7,9 @@
 ## 🤘 What is Let's Go?
 Let's Go is an application for finding new friends.
 Users can post activities that they are interested in doing, and other users can
-request to join.
-
----
+request to join. The API is almost at the point of MVP and will be deployed.
+The application itself will have development beginning soon after the MVP
+of the API is deployed.
 
 ## 🙌 Contributing
 After cloning the repository, do the following.

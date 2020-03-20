@@ -1,11 +1,12 @@
 /node_modules
+
 yarn.lock
 yarn-error.log
+
 .DS_Store
 .vscode
-/*/lint-report.html
-
 .env
 
+/*/lint-report.html
 .nyc_output
 /coverage

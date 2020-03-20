@@ -92,6 +92,12 @@ function attend(req, res) {
     });
 }
 
+/**
+ * @description Edits event fields with new values
+ * provided by the user.
+ * @access RESTRICTED
+ * @type PUT
+ */
 function edit(req, res) {
   const { payload: { id } } = req;
   const { body: { eventID: _id } } = req;
@@ -108,10 +114,10 @@ function edit(req, res) {
     updatedInfo[fields[i]] = values[i];
   }
 
-  Event.findOne({ _id }, (error, event) => {
+  return Event.findOne({ _id }, (error, event) => {
     if (error) { return res.status(400).json({ message: error }); }
     if (event.owner === id) {
-      Event.updateOne(
+      return Event.updateOne(
         { _id },
         { $set: updatedInfo },
       )
@@ -119,9 +125,8 @@ function edit(req, res) {
           res.status(200).json({ data });
         })
         .catch(err => res.status(400).json({ message: err }));
-    } else {
-      return res.status(400).json({ message: 'Not Event Owner' });
     }
+    return res.status(400).json({ message: 'Not Event Owner' });
   });
 }
 
@@ -202,6 +207,12 @@ function publicEvents(req, res) {
     });
 }
 
+/**
+ * @description Searches the events in the
+ * database, querying by title, description, etc.
+ * @access RESTRICTED
+ * @type GET
+ */
 function search(req, res) {
   const { params: { query } } = req;
 
