@@ -2,7 +2,7 @@
 ![Build Status](https://travis-ci.com/duncangrubbs/lets-go-api.svg?branch=master)
 ![Coverage Status](https://coveralls.io/repos/github/duncangrubbs/lets-go-api/badge.svg?branch=master)
 
-> An API for the **Let's Go** app.
+> The API for the **Let's Go** app.
 
 ## 🤘 What is Let's Go?
 Let's Go is an application for finding new friends.
