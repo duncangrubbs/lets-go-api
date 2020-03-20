@@ -107,14 +107,9 @@ function updateFields(req, res) {
   User.updateOne(
     { _id: id },
     { $set: updatedInfo },
-    (error, data) => {
-      if (error) { return res.status(400).json({ message: error }); }
-      return res.status(200).json({ data });
-    },
   )
-    .catch((err) => {
-      console.log(err); // eslint-disable-line
-    });
+    .then(data => res.status(200).json({ data }))
+    .catch(error => res.status(400).json({ message: error }));
 }
 
 /**

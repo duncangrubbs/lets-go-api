@@ -109,12 +109,14 @@ function edit(req, res) {
   Event.findOne({ _id }, (error, event) => {
     if (error) { return res.status(400).json({ message: error }); }
     if (event.owner === id) {
-      Event.updateOne({ _id }, {
-        $set: updatedInfo,
-      }, (err, data) => {
-        if (err) { return res.status(400).json({ message: err }); }
-        return res.status(200).json({ data });
-      });
+      Event.updateOne(
+        { _id },
+        { $set: updatedInfo },
+      )
+        .then((data) => {
+          res.status(200).json({ data });
+        })
+        .catch(err => res.status(400).json({ message: err }));
     } else {
       return res.status(400).json({ message: 'Not Event Owner' });
     }
