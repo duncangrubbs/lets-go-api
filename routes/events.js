@@ -64,10 +64,12 @@ function deleteEvent(req, res) {
       { _id: eventID },
       { owner: id },
     ],
-  }, (_, info) => {
-    if (info.deletedCount === 0) { return res.status(400).json({ message: 'Not Deleted' }); }
-    return res.status(200).json({ message: `Deleted Event ${eventID}` });
-  });
+  })
+    .then((info) => {
+      if (info.deletedCount === 0) { return res.status(400).json({ message: 'Not Deleted' }); }
+      return res.status(200).json({ message: `Deleted Event ${eventID}` });
+    })
+    .catch(error => res.status(400).json({ error }));
 }
 
 /**
