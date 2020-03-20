@@ -111,7 +111,10 @@ function updateFields(req, res) {
       if (error) { return res.status(400).json({ message: error }); }
       return res.status(200).json({ data });
     },
-  );
+  )
+    .catch((err) => {
+      console.log(err); // eslint-disable-line
+    });
 }
 
 /**
