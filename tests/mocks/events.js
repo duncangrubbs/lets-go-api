@@ -9,7 +9,7 @@
 import Event from '../../db/models/Event';
 
 const eventToSave = {
-  title: 'Test event',
+  title: 'Test_event',
   location: {
     latitude: '-10.344',
     longitude: '20.45637',
@@ -20,7 +20,7 @@ const eventToSave = {
 };
 
 const sampleEventNoOwner = new Event({
-  title: 'Test event',
+  title: 'Test_event',
   location: {
     latitude: '-10.344',
     longitude: '20.45637',

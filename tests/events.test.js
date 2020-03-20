@@ -283,4 +283,34 @@ describe('Events Route Tests', () => {
       })
     });
   });
+
+  describe('GET /search', () => {
+    it('should return 200', (done) => {
+      sampleUserOne.save()
+      .then(() => {
+        chai.request(app)
+        .get(`${baseURL}/search/Test_event`)
+        .set('Authorization', `Token ${authTokenUserOne}`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          done();
+        });
+      })
+    });
+
+    it('should return 404 with no query', (done) => {
+      sampleUserOne.save()
+      .then(() => {
+        chai.request(app)
+        .get(`${baseURL}/search`)
+        .set('Authorization', `Token ${authTokenUserOne}`)
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+      })
+    });
+  });
 });

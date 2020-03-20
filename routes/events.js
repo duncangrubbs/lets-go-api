@@ -202,6 +202,24 @@ function publicEvents(req, res) {
     });
 }
 
+function search(req, res) {
+  const { params: { query } } = req;
+
+  Event
+    .find({
+      $or: [
+        { title: query },
+        { description: query },
+        { owner: query },
+      ],
+    })
+    .sort({ date: -1 })
+    .exec((error, events) => {
+      if (error) { res.status(400).json({ error }); }
+      res.status(200).json({ data: excludeBadEvents(events) });
+    });
+}
+
 /**
  * @description GET /api/version/events
  * @access PUBLIC
@@ -221,6 +239,7 @@ router.delete('/', auth.required, deleteEvent);
 router.get('/attendees/:id', auth.required, attendees);
 router.get('/nearby/:lat/:long/:radius', auth.optional, nearby);
 router.get('/public/:page', auth.optional, publicEvents);
+router.get('/search/:query', auth.required, search);
 
 router.get('/', auth.optional, main);
 
