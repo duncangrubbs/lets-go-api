@@ -42,6 +42,7 @@ describe('Auth Route Tests', () => {
     });
 
     it('should return 200 and user', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then((err) => {
         chai.request(app)
@@ -87,7 +88,8 @@ describe('Auth Route Tests', () => {
 
   // TODO: fix this test
   describe('login', () => {
-    it('login should return a status of 410', (done) => {
+    it('login should return a status of 200', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
         chai.request(app)
@@ -95,9 +97,9 @@ describe('Auth Route Tests', () => {
           .set('content-type', 'application/json')
           .send({ user: loginUserCorrect })
           .end((err, res) => {
-            res.should.have.status(410);
-            res.body.should.have.property('message');
-            res.body.message.should.be.a('string');
+            res.should.have.status(200);
+            res.body.should.have.property('user');
+            res.body.user.should.be.a('object');
             done();
         });
       })
@@ -105,6 +107,7 @@ describe('Auth Route Tests', () => {
 
     describe('Incorrect Logins', () => {
       it('login with wrong email should return a status of 410', (done) => {
+        sampleUserOne.isNew = true;
         sampleUserOne.save()
         .then(() => {
           chai.request(app)
@@ -120,7 +123,8 @@ describe('Auth Route Tests', () => {
         })
       });
   
-      it('login with wrong password should return a status of 410', (done) => {
+      it('login with wrong password should return a status of 400', (done) => {
+        sampleUserOne.isNew = true;
         sampleUserOne.save()
         .then(() => {
           chai.request(app)
@@ -128,7 +132,7 @@ describe('Auth Route Tests', () => {
             .set('content-type', 'application/json')
             .send({ user: loginUserIncorrectPass })
             .end((err, res) => {
-              res.should.have.status(410);
+              res.should.have.status(400);
               res.body.should.have.property('message');
               res.body.message.should.be.a('string');
               done();
@@ -140,6 +144,7 @@ describe('Auth Route Tests', () => {
 
   describe('Edit Profile Fields', (done) => {
     it('should succefully update fields', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
         chai.request(app)

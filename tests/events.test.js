@@ -60,8 +60,10 @@ describe('Events Route Tests', () => {
   // create-event route tests
   describe('POST /create-event', () => {
     it('should return a status of 201', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
+        console.log('two'); // eslint-disable-line
         chai.request(app)
         .post(`${baseURL}/create-event`)
         .set('Authorization', `Token ${authTokenUserOne}`)
@@ -72,16 +74,17 @@ describe('Events Route Tests', () => {
           res.body.message.should.be.a('string');
           done();
         })
-      })
-      
+      })      
     });
   });
 
   // attend route tests
   describe('PUT /attend', () => {
     it('should return a status of 200', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
+        sampleEventNoOwner.isNew = true;
         sampleEventNoOwner.save()
         .then(() => {
           chai.request(app)
@@ -102,6 +105,7 @@ describe('Events Route Tests', () => {
   // edit route tests
   describe('PUT /edit', () => {
     it('should return a status of 200', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
         eventToSave.owner = sampleUserOne._id;
@@ -127,6 +131,7 @@ describe('Events Route Tests', () => {
     });
 
     it('should fail with bad fields/values', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
         eventToSave.owner = sampleUserOne._id;
@@ -169,8 +174,10 @@ describe('Events Route Tests', () => {
   // delete route tests
   describe('DELETE /', () => {
     it('should error when not owner of event', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
+        sampleEventNoOwner.isNew = true;
         sampleEventNoOwner.save()
         .then(() => {
           chai.request(app)
@@ -188,6 +195,7 @@ describe('Events Route Tests', () => {
     });
 
     it('should return 204 on success', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
         eventToSave.owner = sampleUserOne._id;
@@ -212,6 +220,7 @@ describe('Events Route Tests', () => {
   // get attendees route tests
   describe('ATTENDEES /', () => {
     it('should return 200 on success', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
         eventToSave.owner = sampleUserOne._id;
@@ -232,6 +241,7 @@ describe('Events Route Tests', () => {
     });
 
     it('should return 409 on failure', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
         eventToSave.owner = sampleUserOne._id;
@@ -255,6 +265,7 @@ describe('Events Route Tests', () => {
   // public route tests
   describe('GET /public', () => {
     it('should return a status of 200 with token', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
         chai.request(app)
@@ -270,6 +281,7 @@ describe('Events Route Tests', () => {
     });
 
     it('should return a status of 200 without token', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
         chai.request(app)
@@ -286,6 +298,7 @@ describe('Events Route Tests', () => {
 
   describe('GET /search', () => {
     it('should return 200', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
         chai.request(app)
@@ -301,6 +314,7 @@ describe('Events Route Tests', () => {
     });
 
     it('should return 404 with no query', (done) => {
+      sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
         chai.request(app)
