@@ -240,7 +240,7 @@ describe('Events Route Tests', () => {
       })
     });
 
-    it('should return 401 on failure', (done) => {
+    it('should return 409 on failure', (done) => {
       sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
@@ -252,7 +252,7 @@ describe('Events Route Tests', () => {
           .get(`${baseURL}/attendees/${newEvt._id}`)
           .set('Authorization', `Token ${arbitraryToken}`)
           .end((err, res) => {
-            res.should.have.status(401);
+            res.should.have.status(409);
             res.body.should.have.property('message');
             res.body.message.should.be.a('string');
             done();

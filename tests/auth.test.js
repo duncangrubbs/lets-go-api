@@ -174,7 +174,7 @@ describe('Auth Route Tests', () => {
           values: ['new email']
         })
         .end((err, res) => {
-          res.should.have.status(401);
+          res.should.have.status(400);
           res.body.should.have.property('message');
           res.body.message.should.be.a('string');
           done();
