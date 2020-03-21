@@ -3,10 +3,11 @@
  * @description Config for database.
  * @author Duncan Grubbs
  */
+require('dotenv').config();
 
 const config = {
   development: 'mongodb://localhost/lets-go-db',
-  production:  '', // some server somewhere
+  production: process.env.MONGO_URL,
 };
 
 module.exports = config;
