@@ -7,6 +7,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
+import path from 'path';
 
 import mongoDB from './mongoDB';
 import config from './config/config';
@@ -51,6 +52,10 @@ app.use((err, req, res, next) => {
     });
   }
   return next();
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 // Catch-all
