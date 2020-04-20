@@ -54,6 +54,11 @@ app.use((err, req, res, next) => {
   return next();
 });
 
+/*
+ Serve static documentation page on / endpoint.
+ This was added to that users following links
+ to the webiste will not get a 'route not found'.
+*/
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
 });

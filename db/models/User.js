@@ -1,4 +1,5 @@
 /* eslint-disable func-names */
+/* eslint-disable indent */
 /**
  * @file User.js
  * @author Duncan Grubbs
@@ -18,6 +19,10 @@ const User = new mongoose.Schema({
   username:    { type: String, required: false },
   location:    { type: String, required: false },
   bio:         { type: String, required: false },
+  interests:   [
+               { name:   { type: String, required: true } },
+               { weight: { type: Number, required: true } },
+               ],
   pastEvents:  { type: Array, required: false },
 
   hash:        { type: String, default: null, required: false },
