@@ -165,20 +165,24 @@ describe('Auth Route Tests', () => {
     });
 
     it('should fail with bad fields/values', (done) => {
-      chai.request(app)
-        .put(`${baseURL}/update`)
-        .set('content-type', 'application/json')
-        .set('Authorization', `Bearer ${arbitraryToken}`)
-        .send({
-          fields: ['bad field', 'firstName'],
-          values: ['new email']
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.have.property('message');
-          res.body.message.should.be.a('string');
-          done();
-        })
+      sampleUserOne.isNew = true;
+      sampleUserOne.save()
+      .then(() => {
+        chai.request(app)
+          .put(`${baseURL}/update`)
+          .set('content-type', 'application/json')
+          .set('Authorization', `Bearer ${authTokenUserOne}`)
+          .send({
+            fields: ['bad field', 'firstName'],
+            values: ['new email']
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.should.have.property('message');
+            res.body.message.should.be.a('string');
+            done();
+          })
+      })
     });
   });
 });
