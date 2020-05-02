@@ -66,7 +66,7 @@ describe('Events Route Tests', () => {
         console.log('two'); // eslint-disable-line
         chai.request(app)
         .post(`${baseURL}/create-event`)
-        .set('Authorization', `Token ${authTokenUserOne}`)
+        .set('Authorization', `Bearer ${authTokenUserOne}`)
         .send({ event: eventToSave })
         .end((err, res) => {
           res.should.have.status(201);
@@ -89,7 +89,7 @@ describe('Events Route Tests', () => {
         .then(() => {
           chai.request(app)
           .put(`${baseURL}/attend`)
-          .set('Authorization', `Token ${authTokenUserOne}`)
+          .set('Authorization', `Bearer ${authTokenUserOne}`)
           .send({ eventID: sampleEventNoOwnerID })
           .end((err, res) => {
             res.should.have.status(200);
@@ -114,7 +114,7 @@ describe('Events Route Tests', () => {
         .then(() => {
           chai.request(app)
           .put(`${baseURL}/edit`)
-          .set('Authorization', `Token ${authTokenUserOne}`)
+          .set('Authorization', `Bearer ${authTokenUserOne}`)
           .send({
             eventID: newEvt._id,
             fields: ['title', 'description'],
@@ -140,7 +140,7 @@ describe('Events Route Tests', () => {
         .then(() => {
           chai.request(app)
           .put(`${baseURL}/edit`)
-          .set('Authorization', `Token ${authTokenUserOne}`)
+          .set('Authorization', `Bearer ${authTokenUserOne}`)
           .send({
             eventID: newEvt._id,
             fields: ['wack'],
@@ -182,7 +182,7 @@ describe('Events Route Tests', () => {
         .then(() => {
           chai.request(app)
           .delete(`${baseURL}`)
-          .set('Authorization', `Token ${authTokenUserOne}`)
+          .set('Authorization', `Bearer ${authTokenUserOne}`)
           .send({ eventID: sampleEventNoOwnerID })
           .end((err, res) => {
             res.should.have.status(400);
@@ -204,7 +204,7 @@ describe('Events Route Tests', () => {
         .then(() => {
           chai.request(app)
           .delete(`${baseURL}`)
-          .set('Authorization', `Token ${authTokenUserOne}`)
+          .set('Authorization', `Bearer ${authTokenUserOne}`)
           .send({ eventID: newEvt._id })
           .end((err, res) => {
             res.should.have.status(200);
@@ -229,7 +229,7 @@ describe('Events Route Tests', () => {
         .then(() => {
           chai.request(app)
           .get(`${baseURL}/attendees/${newEvt._id}`)
-          .set('Authorization', `Token ${authTokenUserOne}`)
+          .set('Authorization', `Bearer ${authTokenUserOne}`)
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.have.property('data');
@@ -250,7 +250,7 @@ describe('Events Route Tests', () => {
         .then(() => {
           chai.request(app)
           .get(`${baseURL}/attendees/${newEvt._id}`)
-          .set('Authorization', `Token ${arbitraryToken}`)
+          .set('Authorization', `Bearer ${arbitraryToken}`)
           .end((err, res) => {
             res.should.have.status(409);
             res.body.should.have.property('message');
@@ -270,7 +270,7 @@ describe('Events Route Tests', () => {
       .then(() => {
         chai.request(app)
         .get(`${baseURL}/public/3`)
-        .set('Authorization', `Token ${authTokenUserOne}`)
+        .set('Authorization', `Bearer ${authTokenUserOne}`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
@@ -303,7 +303,7 @@ describe('Events Route Tests', () => {
       .then(() => {
         chai.request(app)
         .get(`${baseURL}/search/Test_event`)
-        .set('Authorization', `Token ${authTokenUserOne}`)
+        .set('Authorization', `Bearer ${authTokenUserOne}`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
@@ -319,7 +319,7 @@ describe('Events Route Tests', () => {
       .then(() => {
         chai.request(app)
         .get(`${baseURL}/search`)
-        .set('Authorization', `Token ${authTokenUserOne}`)
+        .set('Authorization', `Bearer ${authTokenUserOne}`)
         .end((err, res) => {
           res.should.have.status(404);
           done();

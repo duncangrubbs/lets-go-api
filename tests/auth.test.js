@@ -47,7 +47,7 @@ describe('Auth Route Tests', () => {
       .then((err) => {
         chai.request(app)
           .get(baseURL)
-          .set('Authorization', `Token ${authTokenUserOne}`)
+          .set('Authorization', `Bearer ${authTokenUserOne}`)
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.have.property('message');
@@ -150,7 +150,7 @@ describe('Auth Route Tests', () => {
         chai.request(app)
           .put(`${baseURL}/update`)
           .set('content-type', 'application/json')
-          .set('Authorization', `Token ${authTokenUserOne}`)
+          .set('Authorization', `Bearer ${authTokenUserOne}`)
           .send({
             fields: ['email', 'firstName'],
             values: ['new email', 'new name']
@@ -168,7 +168,7 @@ describe('Auth Route Tests', () => {
       chai.request(app)
         .put(`${baseURL}/update`)
         .set('content-type', 'application/json')
-        .set('Authorization', `Token ${arbitraryToken}`)
+        .set('Authorization', `Bearer ${arbitraryToken}`)
         .send({
           fields: ['bad field', 'firstName'],
           values: ['new email']
