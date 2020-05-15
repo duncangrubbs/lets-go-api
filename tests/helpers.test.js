@@ -4,8 +4,18 @@ import chai from 'chai';
 
 const expect = chai.expect;
 
-const result1 = isInRadius(37.774929, -122.419418, 300, 37.975380, -122.561813);
-const result2 = isInRadius(37.774929, -122.419418, 5, 37.975380, -122.561813);
+const userLoc = {
+  LAT: 37.774929,
+  LONG: -122.419418,
+};
+
+const eventLoc = {
+  LAT: 37.975380,
+  LONG: -122.561813,
+};
+
+const result1 = isInRadius(userLoc, 300, eventLoc);
+const result2 = isInRadius(userLoc, 5, eventLoc);
 
 describe('isInRadius', () => {
   it('Correctly identifies inside radius', () => {

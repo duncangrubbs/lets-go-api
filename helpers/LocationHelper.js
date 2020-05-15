@@ -15,12 +15,12 @@
  * @param {Number} eventLong Longitude of event to test against
  * @returns {Boolean} If new event is the in defined radius
  */
-export function isInRadius(userLat, userLong, radius, eventLat, eventLong) {
+export function isInRadius(userLoc, radius, eventLoc) {
   let distance = 0;
 
-  const radlat1 = Math.PI * userLat / 180;
-  const radlat2 = Math.PI * eventLat / 180;
-  const theta = userLong - eventLong;
+  const radlat1 = Math.PI * userLoc.LAT / 180;
+  const radlat2 = Math.PI * eventLoc.LAT / 180;
+  const theta = userLoc.LONG - eventLoc.LONG;
   const radtheta = Math.PI * theta / 180;
 
   distance = Math.sin(radlat1) * Math.sin(radlat2)

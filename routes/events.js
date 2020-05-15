@@ -154,6 +154,31 @@ function attendees(req, res) {
 }
 
 /**
+ * Helper function for the nearby endpoints,
+ * checks if a given event is nearby.
+ * @param {Object} event Event object to check.
+ * @param {Number} lat Latitude of user
+ * @param {Number} long Longitude of user
+ * @param {Number} radius Radius to check by
+ */
+function isEventNearby(event, lat, long, radius) {
+  const { location: { latitude } } = event;
+  const { location: { longitude } } = event;
+
+  const userLoc = {
+    LAT: parseFloat(lat),
+    LONG: parseFloat(long),
+  };
+
+  const eventLoc = {
+    LAT: parseFloat(latitude),
+    LONG: parseFloat(longitude),
+  };
+
+  return isInRadius(userLoc, parseInt(radius, 10), eventLoc);
+}
+
+/**
  * @description Returns list of events posted within
  * the given radius
  * @access PUBLIC
@@ -171,16 +196,7 @@ function nearby(req, res) {
       if (error) { res.status(400).json({ error }); }
       let eventsToReturn = [];
       events.forEach((event) => {
-        const { location: { latitude } } = event;
-        const { location: { longitude } } = event;
-        const inRadius = isInRadius(
-          parseFloat(lat),
-          parseFloat(long),
-          parseInt(radius, 10),
-          parseFloat(latitude),
-          parseFloat(longitude),
-        );
-        if (inRadius) {
+        if (isEventNearby(event, lat, long, radius)) {
           eventsToReturn.push(event);
         }
       });
