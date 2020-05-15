@@ -10,5 +10,6 @@ after_script:
   - ./cc-test-reporter upload-coverage
 script:
   - yarn run test
+  - mkdir .nyc_output
   - yarn run coverage
 services: mongodb

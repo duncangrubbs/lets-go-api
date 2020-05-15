@@ -1,6 +1,5 @@
 # Let's Go API
 ![Build Status](https://travis-ci.com/duncangrubbs/lets-go-api.svg?branch=master)
-![Coverage Status](https://coveralls.io/repos/github/duncangrubbs/lets-go-api/badge.svg?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/219457d5c01d3fc303c4/maintainability)](https://codeclimate.com/github/duncangrubbs/lets-go-api/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/219457d5c01d3fc303c4/test_coverage)](https://codeclimate.com/github/duncangrubbs/lets-go-api/test_coverage)
 
