@@ -1,0 +1,14 @@
+sut:
+  build: .
+  dockerfile: Dockerfile.test
+  links:
+    - app
+app:
+  build: .
+  dockerfile: Dockerfile
+  links:
+    - mongo
+mongo:
+  image: mongo
+  ports:
+    - "27017:27017"

@@ -6,7 +6,7 @@
 require('dotenv').config();
 
 const config = {
-  development: 'mongodb://localhost/lets-go-db',
+  development: 'mongodb://mongo:27017/lets-go-db',
   production: process.env.MONGO_URL,
 };
 
