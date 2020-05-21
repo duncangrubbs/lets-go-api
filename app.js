@@ -9,7 +9,7 @@ import bodyParser from 'body-parser';
 import logger from 'morgan';
 import path from 'path';
 
-import mongoDB from './mongoDB';
+import mongoDB from './db/mongoDB';
 import config from './config/config';
 
 // API Routes

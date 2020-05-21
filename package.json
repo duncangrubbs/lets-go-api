@@ -6,31 +6,32 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon --exec babel-node app.js",
-    "test": "mocha --require babel-register --recursive tests --exit",
+    "test": "mocha --require @babel/register --recursive tests --exit",
     "coverage": "nyc -r lcov yarn test",
-    "lint": "eslint . -o ./tests/lint-report.html -f html"
+    "lint": "eslint . -o ./coverage/lint-report.html -f html && open ./coverage/lint-report.html"
   },
   "license": "ISC",
   "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
+    "@babel/core": "^7.9.6",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/register": "^7.9.0",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
-    "crypto": "^1.0.1",
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
-    "express-jwt": "^5.3.1",
+    "express-jwt": "^5.3.3",
     "jsonwebtoken": "^8.5.0",
     "mocha": "7.1.2",
-    "mongoose": "^5.4.13",
+    "mongoose": "^5.9.15",
     "morgan": "^1.9.1",
     "nodemon": "2.0.4",
     "nyc": "15.0.1"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.16.0"
+    "eslint": "^7.0.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2"
   }
 }

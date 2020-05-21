@@ -6,33 +6,29 @@
 > The API for the **Let's Go** app.
 
 ## 🤘 What is Let's Go?
-Let's Go is an application for finding new friends.
-Users can post activities that they are interested in doing, and other users can
-request to join. The API is almost at the point of MVP and will be deployed.
-The application itself will have development beginning soon after the MVP
-of the API is deployed.
+Let's Go is an app for finding new friends. Have you ever wanted to go hiking, but couldn't find anyone to go? Needed a surfing buddy but none of your friends know how? Moved to a new city and looking for someone to play some pickup basketball with? As active people, we connect over outdoor activties, and there is no better way to bond then getting outside of your comfort zone. With Let's Go, everything is organized by activity, so you can find people who have the same outdoor passions as yourself.
 
 ## 🙌 Contributing
 After cloning the repository, do the following.
-- Always run `mongod` in a seperate terminal to 
-start up your local MongoDB server first
-- Run `yarn` to install all dependencies
-- Run `yarn start` to start the dev server
-- Run `yarn test` to test
-- Run `yarn run lint` to lint
-- Run `yarn run coverage` to collect test coverage
+1. Make sure you have `Docker` and `docker-compose` installed
+2. Run `docker-compose up` to run the project
+
+*Other Options:*
+- `yarn run test` to test
+- `yarn run lint` to lint
+- `yarn run coverage` to collect test coverage
 
 ## 🔨 Built With:
 1. [Node](https://nodejs.org/) - running JS locally
 2. [Yarn](https://yarnpkg.com/) - package manager
 3. [Babel](https://babeljs.io) - for JS transpiling ES6
-4. [Mongoose](http://mongoosejs.com) - for MongoDB
-5. [MongoDB](https://www.mongodb.com/) - JSON database
+4. [MongoDB](https://www.mongodb.com/) - JSON database
+5. [Mongoose](http://mongoosejs.com) - for MongoDB
 6. [Mocha](https://mochajs.org/) - Javascript test assertion library
 7. [Chai](https://www.chaijs.com/) - For simulating HTTP requests when testing
 8. [dotenv](https://github.com/motdotla/dotenv) - For managing environment variables
+9. [Docker](https://www.docker.com/) - For consistent dev environment and containerization
 
-I am using mongoDBCompass and Postman as resources for testing the API routes
-and the database.
+I use Postman for testing the API routes locally.
 
 **See the wiki for API documentation**

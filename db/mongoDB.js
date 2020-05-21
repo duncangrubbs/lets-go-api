@@ -5,7 +5,7 @@
  */
 
 import mongoose from 'mongoose';
-import dbConfig from './config/database';
+import dbConfig from '../config/database';
 
 module.exports = {
   mongoose,

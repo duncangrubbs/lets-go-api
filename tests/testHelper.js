@@ -4,7 +4,7 @@
  * @author Duncan Grubbs
  */
 
-import mongoDB from '../mongoDB';
+import mongoDB from '../db/mongoDB';
 
 before(() => {
   mongoDB.connect();
