@@ -11,7 +11,10 @@ Let's Go is an app for finding new friends. Have you ever wanted to go hiking, b
 ## 🙌 Contributing
 After cloning the repository, do the following.
 1. Make sure you have `Docker` and `docker-compose` installed
-2. Run `docker-compose up` to run the project
+2. `docker-compose up` to run the project
+3. Optionally, use the `-d` flag like so: `docker-compose up -d`, to run the project in the background with no logging
+
+I am currently still working on getting the testing environment setup with Docker so to test you still have to run locally, as seen below.
 
 *Other Options:*
 - `yarn run test` to test
