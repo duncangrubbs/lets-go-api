@@ -87,9 +87,7 @@ function attend(req, res) {
     .then((error, blob) => {
       res.status(200).json({ message: 'ATTEND OK', data: blob });
     })
-    .catch((error) => {
-      res.status(400).json({ error });
-    });
+    .catch(error => res.status(400).json({ error }));
 }
 
 /**

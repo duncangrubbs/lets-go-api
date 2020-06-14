@@ -63,7 +63,6 @@ describe('Events Route Tests', () => {
       sampleUserOne.isNew = true;
       sampleUserOne.save()
       .then(() => {
-        console.log('two'); // eslint-disable-line
         chai.request(app)
         .post(`${baseURL}/create-event`)
         .set('Authorization', `Bearer ${authTokenUserOne}`)

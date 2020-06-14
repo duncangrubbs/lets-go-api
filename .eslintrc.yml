@@ -11,5 +11,6 @@ parserOptions:
 rules: {
   no-underscore-dangle: off,
   key-spacing: off,
+  arrow-parens: off,
   prefer-default-export: off
 }
